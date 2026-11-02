@@ -16,7 +16,7 @@ class Node{
 };
 
 class Graph{
-  static vector<Node> buildings; //i think this counts as an adjacency list, only ONE so trying to use static keyword will change if break
+  vector<Node> buildings; //i think this counts as an adjacency list,
   public:
     void addBuildings(vector<string> uniqBuildings);
     void addEdges(vector<string> uniqStrings);
