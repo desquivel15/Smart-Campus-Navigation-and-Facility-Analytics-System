@@ -12,6 +12,7 @@ class Node{
   public:
     Node(string name);
     string getBuildingName();
+    void addConnection(Node* otherBuilding);
 };
 
 class Graph{
