@@ -83,8 +83,9 @@ int main(){
             cout<<"ERROR - connections.txt line "<<lineNumber<<" duplicate record"<<endl;
         }
     }
-    if(buildsExist && !alreadyExist){
-      connections.push_back(line); //entire line, can resplit connections later 
+    if(buildsExist && !alreadyExist){ //BOTH buildings that are connected get added here - when adding to graph accesses both
+      connections.push_back(building1);
+      connections.push_back(building2);
     }
   }
   lineNumber = 0;
