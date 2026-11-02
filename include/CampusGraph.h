@@ -9,6 +9,8 @@ using namespace std;
 class Node{
   string buildingName;
   vector<Node*> edges;
+  public:
+    Node(string name);
 };
 
 class Graph{
