@@ -18,7 +18,7 @@ void Graph::addBuildings(vector<string> uniqBuildings){  //might be broekn will 
 }
 
 void Graph::addEdges(vector<string> uniqStrings){
-  for(int i = 0; i < uniqStrings/2; i++){ //for every 2 strings in uniqStrings there is a connections
+  for(int i = 0; i < uniqStrings.size()/2; i++){ //for every 2 strings in uniqStrings there is a connections
     int index1, index2;
     for(int j = 0; j < buildings.size(); j++){
       if(buildings[j].getBuildingName()==uniqStrings[i]){
