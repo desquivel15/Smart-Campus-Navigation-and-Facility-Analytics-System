@@ -11,6 +11,7 @@ class Node{
   vector<Node*> edges;
   public:
     Node(string name);
+    string getBuildingName();
 };
 
 class Graph{
