@@ -8,9 +8,9 @@ using namespace std;
 
 class Node{
   string buildingName;
-  vector<Node*> edges;
   int sumEdges;
   public:
+    vector<Node*> edges;
     Node(string name);
     string getBuildingName();
     int getNumConnections();
@@ -23,7 +23,8 @@ class Graph{
     void addBuildings(vector<string> uniqBuildings);
     void addEdges(vector<string> uniqStrings);
     void display();
-    void BFS(string start, string goal);
+    void shortestPath(string start, string goal);
+    void reachability(string start);
 };
 
 #endif
