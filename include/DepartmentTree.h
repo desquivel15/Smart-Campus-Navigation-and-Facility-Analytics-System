@@ -35,6 +35,7 @@ class DepartmentTree {
 		void displayHierarchy();
 		void displayDepartmentInfo(string name);
 		bool loadDepartments(string filename);
+		bool isEmpty();
 
 };
 

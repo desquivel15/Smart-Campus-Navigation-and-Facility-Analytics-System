@@ -23,8 +23,26 @@ string lowercased(string given){
   return returned;
 }
 
+void displayMenu() {
+
+  cout << "1. View all facilities" << endl;
+  cout << "2. Search facility by ID" << endl;
+  cout << "3. View campus graph" << endl;
+  cout << "4. Display graph counts and degrees" << endl;
+  cout << "5. Find reachable buildings (BFS)" << endl;
+  cout << "6. Add department" << endl;
+  cout << "7. Search department" << endl;
+  cout << "8. Display department hierarchy" << endl;
+  cout << "9. Run preorder traversal" << endl;
+  cout << "0. Exit" << endl;
+
+}
+
 int main(){
+
+  // graph code
   int lineNumber = 0;
+  
   //file input section, reading data from files and separating into strings in vectots
   vector<string> buildings;
   ifstream inFile;
@@ -105,8 +123,120 @@ int main(){
     }
   }
   lineNumber = 0;
-    
+
+  // Department Tree 
+  DepartmentTree departmentTree;
+
+  departmentTree.loadDepartments("data/departments.txt");
+
+  // calling displayMenu()
+  int choice;
+
+  do {
+      displayMenu();
+
+      string input;
+
+      cout << "Enter choice: ";
+      getline(cin, input);
+
+      if (input.empty() || input.length() != 1) {
+        cout << "ERROR - Invalid Menu Input" << endl;
+        continue;
+      }
+
+      if (!isdigit(input[0])) {
+        cout << "ERROR - Invalid Menu Input" << endl;
+        continue;
+      }
+
+      choice = stoi(input);
+
+      switch (choice) {
+
+        case 0:
+            break;
+
+        case 1:
+            break;
+
+        case 2:
+            break;
+        
+        case 3:
+            break;
+
+        case 4:
+            break;
+
+        case 5:
+            break;
+
+        case 6: {
+            string name;
+          
+            cout << "Enter department name: ";
+            getline(cin, name);
+
+            if (name.empty()) {
+                cout << "ERROR - Department name cannot be blank." << endl;
+                break;
+            }
+            
+            if (departmentTree.isEmpty()) {
+                departmentTree.addDepartment(name, "NONE");
+            }
+
+            else {
+                string parentName;
+
+                cout << "Enter parent department: ";
+                getline(cin, parentName);
+
+                departmentTree.addDepartment(name, parentName);
+            }
+
+            break;
+        }
+
+        case 7: {
+            string holdName;
+
+            cout << "Search department: ";
+            getline(cin, holdName);
+
+            if (holdName.empty()) {
+              cout << "ERROR - Department cannot be blank" << endl;
+              break;
+            }
+
+            departmentTree.displayDepartmentInfo(holdName);
+
+            break;
+        }
+        
+        case 8: 
+            departmentTree.displayHierarchy();
+            break;
+
+        case 9:
+            departmentTree.displayPreorder();
+            break;
+
+        default:
+            cout << "Invalid choice. Please try again." << endl;
+            break;
+      }
+
+  } while (choice != 0);
+  
+
+
+
+
   return 0;
+
+  
 }
 /*
     // variable for getline to read the full line
@@ -178,3 +308,4 @@ int main(){
     reservationFile.close();
 
 */
+

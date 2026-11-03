@@ -15,6 +15,18 @@ string toLowerCase(string text) {
 	return text;
 }
 
+string trim(string text) {
+	while (!text.empty() && isspace(text[0])) {
+		text.erase(0, 1);
+		
+	}
+
+	while (!text.empty() && isspace(text.back())) {
+		text.pop_back();
+	}
+	return text;
+}
+
 // constructor
 DepartmentTree::DepartmentTree() {
 	root = nullptr;
@@ -160,7 +172,13 @@ bool DepartmentTree::loadDepartments(string filename) {
 	int accepted = 0;
 	int rejected = 0;
 
+	int lineNumber = 0;
+
 	while (getline(file, line)) {
+
+		lineNumber++;
+
+		line = trim(line);
 		if (line.empty() || line[0] == '#') {
 			continue;	
 		}
@@ -175,8 +193,7 @@ bool DepartmentTree::loadDepartments(string filename) {
 		}
 
 		if (delimiterCount != 1) {
-	
-			cout << "Invalid department record." << endl;
+			cout << filename << " line " << lineNumber  << ": wrong field count " << endl;
 			rejected++;
 			continue;
 		}
@@ -185,14 +202,15 @@ bool DepartmentTree::loadDepartments(string filename) {
 
 		string departmentName;
 		string parentName;
-		string extraField;
 	
 		getline(ss, departmentName, '|');
+		departmentName = trim(departmentName);
+		
 		getline(ss, parentName, '|');
-		getline(ss, extraField);
+		parentName = trim(parentName);
 
-		if (departmentName.empty() || parentName.empty() || !extraField.empty()) {
-			cout << "Invalid department record." << endl;
+		if (departmentName.empty() || parentName.empty()) {
+			cout << filename << " line " << lineNumber << ": empty field" << endl;
 			rejected++;
 			continue;
 		}
@@ -200,7 +218,7 @@ bool DepartmentTree::loadDepartments(string filename) {
 		// tree has root, so none would create a second root
 		if (parentName == "NONE" && root != nullptr) {
 			
-			cout << "Invalid department record: multiple roots." << endl;
+			cout << filename << " line " << lineNumber << ": multiple roots." << endl;
 			rejected++;
 			continue;
 		}
@@ -208,11 +226,23 @@ bool DepartmentTree::loadDepartments(string filename) {
 		// tree has no root yet, so first department must say none
 		if (root == nullptr && parentName != "NONE") {
 
-			cout << "Invalid department record: root must have parent NONE." << endl;
+			cout << filename << " line " << lineNumber << ": root must have parent NONE." << endl;
 			rejected++;
 			continue;
 		}
 
+		if (searchDepartment(departmentName) != nullptr) {
+			cout << filename << " line " << lineNumber << ": duplicate department" << endl;
+			rejected++;
+			continue;
+		}
+
+		if (parentName != "NONE" && searchDepartment(parentName) == nullptr) {
+			cout << filename << " line " << lineNumber << ": parent department not found" << endl;
+			rejected++;
+			continue;
+		}
+  
 		bool added = addDepartment(departmentName, parentName);
 
 		if (added) {
@@ -225,10 +255,13 @@ bool DepartmentTree::loadDepartments(string filename) {
 
 	file.close();
 
-	cout << "Accepted: " << accepted << endl;
-	cout << "Rejected: " << rejected << endl;	
-
+	cout << "[" << filename << "]: " << accepted << " accepted, " << rejected << " rejected" << endl;
+	
 	return true;
+}
+
+bool DepartmentTree::isEmpty() {
+	return root == nullptr;
 }
 
 void DepartmentTree::displayDepartmentInfo(string name) {
