@@ -1,0 +1,28 @@
+1.1. Hash function
+The key is the facility ID after normalization (trimmed and uppercase (eg., " f004 " becomes "F004").
+ 
+Formula:
+hashCode = 0
+    for each character c in the key:
+    hashCode = hashCode * 27 + ASCII(c)
+    bucketIndex = hashCode % capacity
+ 
+Example with capacity 15 and key "F004":
+    'F' (70):  0 * 27 + 70 = 70
+    '0' (48):  70 * 27 + 48 = 1938
+    '0' (48):  1938 * 27 + 48 = 52374
+    '4' (52):  52374 * 27 + 52 = 1414150
+    bucketIndex = 1414150 % 15 = 10
+
+1.2. Collision strategy: separate chaining
+Each bucket holds a singly linked list of items (key, value, next). When two IDs hash to the same bucket, the new item is added to the end of that bucket's linked list.
+We choose separate chaining because the chain can grow, so there is no limit on how many facilities can be added to the table. 
+The collision is counted when there is an insertion into a non-empty bucket.
+
+1.3. Table capacity and full-table behavior
+- Capacity: 15 buckets
+- Full-table behavior: with separate chaining, so the table is never full. Each bucket's linked list can keep growing with every valid, non-duplicate facility.
+- No resizing implemented.
+- The hash table stores two values:
+   Key = facility ID in uppercase
+   Value = index of the facility in Facility Manager
