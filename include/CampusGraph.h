@@ -23,7 +23,7 @@ class Graph{
     void addBuildings(vector<string> uniqBuildings);
     void addEdges(vector<string> uniqStrings);
     void display();
-    void BFS(Node goal);
+    void BFS(string start, string goal);
 };
 
 #endif
