@@ -16,13 +16,15 @@ string lowercased(string given){
   for(int i = 0; i < given.size(); i++){
     if( (given[i] > 64) && (given[i] < 91) ){
         returned += given[i]+32;
+    } else {
+        returned += given[i];
     }
   }
   return returned;
 }
 
 int main(){
-  int lineNumber;
+  int lineNumber = 0;
   //file input section, reading data from files and separating into strings in vectots
   vector<string> buildings;
   ifstream inFile;
@@ -32,11 +34,17 @@ int main(){
         return 1;
   }
   string line;
-  bool alreadyExist = false;
   while(getline(inFile, line)){
+    bool alreadyExist = false;
+    bool isHeader = false;
     stringstream lineStream(line);
     lineNumber++;
     string buildingName = line;
+    char firstChar = lowercased(buildingName).at(0);
+    if( (firstChar<97) || (firstChar>122) ){
+      isHeader = true; //gets rid of first line w/ # - dont have to repeat for connections since already checkes if buildings exist there
+    }
+    if(isHeader) continue;
     for(int i = 0; i < buildings.size(); i++){
       if(lowercased(buildingName)==(lowercased(buildings[i]))){
         alreadyExist = true;
@@ -44,52 +52,59 @@ int main(){
       }
     }
     if(!alreadyExist)  buildings.push_back(line);
+    alreadyExist = false;
   }
   inFile.close();
   lineNumber = 0;
   
   vector<string> connections;
   inFile.open("data/connections.txt");
-   if (inFile.is_open() == false) {
-        cout << "ERROR - File could not open.";
-        return 1;
+  if (inFile.is_open() == false) {
+    cout << "ERROR - File could not open.";
+    return 1;
   }
-  alreadyExist = false;
-  bool buildsExist = true;
   while(getline(inFile, line)){
+    bool build1Exist = false;
+    bool build2Exist = false;
     stringstream linestream(line);
-    line.pop_back(); //get rid of /r
+    if(!line.empty() && line.back()=='\r'){
+      line.pop_back();
+    } //get rid of /r
     lineNumber++;
     string building1, building2;
     getline(linestream, building1, '|');
     getline(linestream, building2);
-    building2.pop_back(); //get rid of carrier for now
     for(int i = 0; i < buildings.size(); i++){
       if( lowercased(building1) == lowercased(buildings[i]) ){
-        buildsExist = true;
+        build1Exist = true;
       }
       if( lowercased(building2) == lowercased(buildings[i]) ){
-        buildsExist = true;
+        build2Exist = true;
       }
       if( lowercased(building1) == lowercased(building2) ){ 
-        buildsExist = false; 
+        build1Exist = false;
+        build2Exist = false;
       }
     }
-    for(int i = 0; i < connections.size(); i++){
-        string temp = building1+"|"+building2;
-        string reverse = building2+"|"+building1;
-        if( (connections[i] == temp) || (connections[i] == reverse) ){
-            alreadyExist = true;
-            cout<<"ERROR - connections.txt line "<<lineNumber<<" duplicate record"<<endl;
+    bool alreadyExist = false;
+    if(connections.size()>2){
+      for(int i = 0; i < connections.size()-1; i+=2){
+        if( (connections[i]==building1) && (connections[i+1]==building2) ){
+          alreadyExist = true;
+          cout<<"ERROR - connections.txt line "<<lineNumber<<" duplicate record"<<endl;
         }
+        if( (connections[i+1]==building1) && (connections[i]==building2) ){
+          alreadyExist = true;
+          cout<<"ERROR - connections.txt line "<<lineNumber<<" duplicate record"<<endl;
+        }
+      }
     }
-    if(buildsExist && !alreadyExist){ //BOTH buildings that are connected get added here - when adding to graph accesses both
+    if(build1Exist && build2Exist && !alreadyExist){ //BOTH buildings that are connected get added here - when adding to graph accesses both
       connections.push_back(building1);
       connections.push_back(building2);
     }
   }
   lineNumber = 0;
-  
     
   return 0;
 }
