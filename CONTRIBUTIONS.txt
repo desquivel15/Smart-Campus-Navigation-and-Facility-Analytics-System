@@ -1,0 +1,4 @@
+Member A: My Nguyen
+- Facility (Facility.h / Facility.cpp): facility record
+- HashTable (HashTable.h / HashTable.cpp): hash table with separate chaining (HashInsert, HashGet, HashRemove), hash function, collision counting, diagnostic report
+- FacilityManager (FacilityManager.h / FacilityManager.cpp): load facilities.txt with validation, view all facilities, search facility by ID using the hash table
