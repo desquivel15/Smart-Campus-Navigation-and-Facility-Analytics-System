@@ -2,6 +2,8 @@
 #include "DepartmentTree.h"
 #include "Facility.h"
 #include "HashTable.h"
+#include "FacilityManager.h"
+#include "RuleHelper.h"
 
 #include <iostream>
 #include <string>
@@ -124,6 +126,10 @@ int main(){
   }
   lineNumber = 0;
 
+  // load facilities.txt
+  FacilityManager facilityManager;
+  facilityManager.loadFacilityFile("data/facilities.txt", buildings);
+
   // Department Tree 
   DepartmentTree departmentTree;
 
@@ -162,11 +168,18 @@ int main(){
         case 0:
             break;
 
-        case 1:
+        case 1: {
+            facilityManager.displayFacility();
             break;
+        }
 
-        case 2:
+        case 2: {
+            string id;
+            cout << "Enter facility ID: ";
+            getline(cin, id);
+            facilityManager.searchByID(id);            
             break;
+        }
         
         case 3:
             theGraph.display();
