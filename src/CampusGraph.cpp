@@ -2,6 +2,12 @@
 #include <iostream>
 #include <queue>
 #include <utility>
+#include <climits>
+
+struct shortestPathVertex{
+    int distance;
+    Node* prev;
+};
 
 Node::Node(string name){
   buildingName = name;
@@ -63,48 +69,99 @@ void Graph::display(){
     }
 }
 
-void Graph::shortestPath(string start, string goal){ //prompt for goal IN MAIN
-    queue<pair<int,Node*>> q; //int is distance
-    vector<Node*> visited;
-    Node* first = NULL;
+void Graph::shortestPath(string start, string goal){
+    //dijkstras shortest path algorithm
+    //used zybooks as a reference for this
+    if(start==goal){
+        cout<<start<<" to "<<goal<<" (0 connections)."<<endl; return;
+    }
+    queue<pair<shortestPathVertex, Node*>> unvisQ;//dist,prev,curr
+    Node* startN = NULL;
+    bool goalexists = false;
     for(int i = 0; i < buildings.size(); i++){
         if(buildings[i]->getBuildingName()==start){
-            first = buildings[i];
-            break;
+            startN = buildings[i];
+        }
+        if(buildings[i]->getBuildingName()==goal){
+            goalexists = true;
         }
     }
-    if(first==NULL){
+    if(startN==NULL){
         cout<<"ERROR - invalid starting building"<<endl; return;
     }
-    cout<<"From "<<start<<" to "<<goal;
-    if(start==goal){
-        cout<<", 0 connections."<<endl; return;
-    } else cout<<endl;
-    
-    q.push(make_pair(0, first));
-    visited.push_back(first);
-    while(!q.empty()){ //start does exist and has at least 1 edge.
-        Node* curr = q.front().second;
-        int dist = q.front().first;
-        q.pop();
-        cout<<"At "<<curr->getBuildingName()<<" distance "<<dist<<endl;
-        if(curr->getBuildingName()==goal){
-            cout<<dist<<" connections."<<endl; return;
-        }
-        for(int i = 0; i < curr->edges.size(); i++){
-            bool alreadyVisited = false;
-            for(int j = 0; j < visited.size(); j++){
-                if(curr->edges[i]==visited[j]){
-                    alreadyVisited = true;
-                }
-            }
-            if(!alreadyVisited){
-                visited.push_back(curr->edges[i]);
-                q.push(make_pair(dist+1,curr->edges[i]));
-            }
+    if(!goalexists){
+        cout<<"ERROR - invalid destination building"<<endl; return;
+    }
+    shortestPathVertex one = {0,NULL};
+    unvisQ.push(make_pair(one,startN));
+    vector<pair<shortestPathVertex,Node*>>vectorized;
+    vector<bool> visited(buildings.size(), false);
+    queue<Node*> temp1;
+    for(int i = 0; i < buildings.size(); i++){
+        if(buildings[i]==startN){
+            vectorized.push_back(make_pair(shortestPathVertex{0, NULL}, buildings[i]));
+        } else {
+            vectorized.push_back(make_pair(shortestPathVertex{INT_MAX, NULL}, buildings[i]));
         }
     }
-    cout<<"No path found between "<<start<<" and "<<goal<<endl;
+    
+    for(int i = 0; i < buildings.size(); i++){
+        int minIndex = -1;
+        int minDist = INT_MAX;
+        for(int j = 0; j < vectorized.size(); j++){
+            if(!visited[j] && (vectorized[j].first.distance<minDist) ){
+                minDist = vectorized[j].first.distance;
+                minIndex = j;
+            }
+        }
+        visited[minIndex] = true;
+        Node* currNode = vectorized[minIndex].second;
+        int currDist = vectorized[minIndex].first.distance;
+        
+        if(currNode->getBuildingName()==goal) break;
+        
+        for(int i = 0; i < currNode->edges.size(); i++){
+            Node* adjNode = currNode->edges[i];
+            int altPathDist = currDist + 1;
+            int vindex = -1; //have to fnd
+            for(int j = 0; j < vectorized.size(); j++){
+                if(vectorized[j].second == adjNode){
+                    vindex = j; break;
+                }
+            }
+            
+            if( (vindex!=-1) && (altPathDist<vectorized[vindex].first.distance) ){
+                vectorized[vindex].first.distance = altPathDist;
+                vectorized[vindex].first.prev = currNode;
+            }
+        }
+    } //vectorized = dist, prev, cur
+    pair<shortestPathVertex,Node*> tempend = {{0,NULL},NULL};
+    for(int i = 0; i < vectorized.size(); i++){
+        if(vectorized[i].second->getBuildingName()==goal){
+            tempend.first = vectorized[i].first;
+            tempend.second = vectorized[i].second;
+        }
+    } //set tempend to goal within vectorized
+    vector<Node*> path; 
+    Node* current = tempend.second;
+    while(current!=NULL){
+        path.push_back(current);
+        Node* next = NULL;
+        for(int i = 0; i < vectorized.size(); i++){
+            //looks for the prev node
+            //cant just loop from that cus not within actual node def
+            if(vectorized[i].second == current){
+                next = vectorized[i].first.prev;
+                break; //so not useless looping
+            }
+        }
+        current = next;
+    }
+    cout<<start<<" to "<<goal<<" ("<<tempend.first.distance<<" connections)."<<endl;
+    for(int i = path.size()-1; i >= 0; i--){ //backwayrds
+        cout<<path[i]->getBuildingName()<<endl;
+    }
 }
 
 void Graph::reachability(string start){ //prompt for start IN MAIN
@@ -128,7 +185,7 @@ void Graph::reachability(string start){ //prompt for start IN MAIN
         Node* curr = q.front().second;
         dist = q.front().first;
         q.pop();
-        cout<<"At "<<curr->getBuildingName()<<" distance "<<dist<<endl;
+        cout<<"At "<<curr->getBuildingName()<<" (distance "<<dist<<")"<<endl;
         for(int i = 0; i < curr->edges.size(); i++){
             bool alreadyVisited = false;
             for(int j = 0; j < visited.size(); j++){
@@ -144,4 +201,3 @@ void Graph::reachability(string start){ //prompt for start IN MAIN
     }
     cout<<"Reachable: "<<dist<<" out of "<<buildings.size()<<endl;
 }
-
