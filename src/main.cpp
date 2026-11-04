@@ -129,6 +129,11 @@ int main(){
 
   departmentTree.loadDepartments("data/departments.txt");
 
+  //creating and intializing graph
+  Graph theGraph;
+  theGraph.addBuildings(buildings);
+  theGraph.addEdges(connections);
+  
   // calling displayMenu()
   int choice;
 
@@ -164,9 +169,17 @@ int main(){
             break;
         
         case 3:
+            theGraph.display();
             break;
 
         case 4:
+            cout<<"Enter starting building name: ";
+            string buildName;
+            getline(cin, buildName);
+            if(buildName.empty(){
+                cout<<"ERROR - need starting building."<<endl; break;
+            }
+            theGraph.reachability(buildName);
             break;
 
         case 5:
@@ -235,77 +248,5 @@ int main(){
 
 
   return 0;
-
-  
 }
-/*
-    // variable for getline to read the full line
-    string fullLine;
-
-    // loop so each line can be read inside file
-    while (getline(inFile, fullLine)) {
-        // parse full line here
-        stringstream lineStream(fullLine);
-
-        string resourceID;
-        string resourceName;
-        string resourceType;
-        string availabilityText;
-        bool availabilityStatus;
-
-       getline(lineStream, resourceID, '|');
-       getline(lineStream, resourceName, '|');
-       getline(lineStream, resourceType, '|');
-       getline(lineStream, availabilityText);
-
-       if (availabilityText == "Available") {
-            availabilityStatus = true;
-       }
-       else if (availabilityText == "Unavailable") {
-            availabilityStatus = false;
-       }
-       else {
-            cout << "ERROR - Wrong Input.";
-            return 1;
-       }
-
-       // Resource object from parsed file data
-       Resource resource(resourceID, resourceName, resourceType, availabilityStatus);
-
-       // add to vector
-       resources.push_back(resource);
-
-    }
-    
-    ifstream reservationFile;
-    reservationFile.open("data/reservations.txt");
-
-    if (reservationFile.is_open() == false) {
-        cout << "ERROR - File could not open.";
-        return 1;
-    }
-
-    string reservationLine;
-    ReservationManager reservationManager;
-
-    while (getline(reservationFile, reservationLine)) {
-        stringstream lineStream(reservationLine);
-
-        string reservationID;
-        string studentId;
-        string studentName;
-        string resourceId;
-        string date;
-
-       getline(lineStream, reservationID, '|');
-       getline(lineStream, studentId, '|');
-       getline(lineStream, studentName, '|');
-       getline(lineStream, resourceId, '|');
-       getline(lineStream, date);
-
-       reservationManager.createNode(reservationID, studentId, studentName, resourceId, date);
-    }
-    reservationFile.close();
-
-*/
 
