@@ -71,7 +71,7 @@ void Graph::display(){
 
 void Graph::shortestPath(string start, string goal){
     //dijkstras shortest path algorithm
-    //used zybooks as a reference for this
+    //used zybooks as a reference for this partiallyy
     if(start==goal){
         cout<<start<<" to "<<goal<<" (0 connections)."<<endl; return;
     }
@@ -114,6 +114,9 @@ void Graph::shortestPath(string start, string goal){
                 minIndex = j;
             }
         }
+        if( (minIndex==-1)||(minDist == INT_MAX) ){
+            break;
+        }
         visited[minIndex] = true;
         Node* currNode = vectorized[minIndex].second;
         int currDist = vectorized[minIndex].first.distance;
@@ -143,6 +146,9 @@ void Graph::shortestPath(string start, string goal){
             tempend.second = vectorized[i].second;
         }
     } //set tempend to goal within vectorized
+    if(tempend.first.distance==INT_MAX){
+        cout<<start<<" to "<<goal<<": no path."<<endl; return;
+    }
     vector<Node*> path; 
     Node* current = tempend.second;
     while(current!=NULL){
