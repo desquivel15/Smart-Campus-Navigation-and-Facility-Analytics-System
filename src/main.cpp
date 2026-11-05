@@ -182,10 +182,14 @@ int main(){
         }
         
         case 3:
-            theGraph.display();
+            theGraph.display(1);
             break;
 
         case 4:
+            theGraph.display(0);
+            break;
+
+        case 5:
             cout<<"Enter starting building name: ";
             string buildName;
             getline(cin, buildName);
@@ -193,9 +197,6 @@ int main(){
                 cout<<"ERROR - need starting building."<<endl; break;
             }
             theGraph.reachability(buildName);
-            break;
-
-        case 5:
             break;
 
         case 6: {
