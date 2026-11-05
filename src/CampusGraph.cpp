@@ -49,20 +49,28 @@ void Graph::addEdges(vector<string> uniqStrings){
   }
 }
 
-void Graph::display(){
+void Graph::display(bool option){
     if(buildings.size()==0){
         cout<<"No buildings in graph."<<endl;
     } else {
         int sumGraphConnect = 0;
         for(int i = 0; i < buildings.size(); i++){
             cout<<buildings[i]->getBuildingName()<<" ";
-            if(buildings[i]->getNumConnections()==0){
-                cout<<"(no connections)"<<" degree = 0"<<endl;
-            } else {
-                cout<<"("<<buildings[i]->getNumConnections()<<" connections) degree = ";
-                cout<<buildings[i]->getNumConnections()<<endl;
-                sumGraphConnect += buildings[i]->getNumConnections();
+            if(option == 0){ //DISPLAY  GRPAH COUNTS AND DEGREES
+                if(buildings[i]->getNumConnections()==0){
+                    cout<<"(no connections)"<<" degree = 0"<<endl;
+                } else {
+                    cout<<"("<<buildings[i]->getNumConnections()<<" connections) degree = ";
+                    cout<<buildings[i]->getNumConnections()<<endl;
+                }
+            } else {//option = 1,, ADJACENY LIST, VIEW CAMPUS GRAPH
+                cout<<": ";
+                for(int j = 0; j < buildings[i]->getNumConnections(); j++){
+                    cout<<buildings[i]->edges[j]->getBuildingName()<<", ";
+                }
+                cout<<"\b\b "<<endl;
             }
+            sumGraphConnect += buildings[i]->getNumConnections();
         }
         cout<<"Total buildings: "<<buildings.size();
         cout<<"; Total connections: "<<sumGraphConnect/2<<endl;
