@@ -50,6 +50,8 @@ void Graph::addEdges(vector<string> uniqStrings){
 }
 
 void Graph::display(bool option){
+    //option = 0, degrees
+    //option = 1, adjaceny lust
     if(buildings.size()==0){
         cout<<"No buildings in graph."<<endl;
     } else {
@@ -73,13 +75,18 @@ void Graph::display(bool option){
             sumGraphConnect += buildings[i]->getNumConnections();
         }
         cout<<"Total buildings: "<<buildings.size();
-        cout<<"; Total connections: "<<sumGraphConnect/2<<endl;
+        cout<<"; Total connections: "<<sumGraphConnect/2;
+        if(option==0){
+            cout<<"; Total connected parts: ";
+            reachability(buildings[0]->getBuildingName(),1);
+        }
+        cout<<endl;
     }
 }
 
 void Graph::shortestPath(string start, string goal){
     //dijkstras shortest path algorithm
-    //used zybooks as a reference for this partiallyy
+    //used zybooks as a reference for this
     if(start==goal){
         cout<<start<<" to "<<goal<<" (0 connections)."<<endl; return;
     }
@@ -178,7 +185,12 @@ void Graph::shortestPath(string start, string goal){
     }
 }
 
-void Graph::reachability(string start){ //prompt for start IN MAIN
+void Graph::reachability(string start, bool option){ //prompt for start IN MAIN
+    //OKAY. so 1 part is the printing reachability part aka option 0
+    //second part (option = 1) is figuring out amount of connnected parts.
+    //second part doesnt actually need starting but is useful
+    // so not excluding - this functoin wont be called in main
+    // will be called in parts of display 
     queue<pair<int,Node*>> q; //int is distance
     vector<Node*> visited;
     Node* first = NULL;
@@ -191,7 +203,9 @@ void Graph::reachability(string start){ //prompt for start IN MAIN
     if(first==NULL){
         cout<<"ERROR - invalid starting building"<<endl; return;
     }
-    cout<<"From "<<start<<endl;
+    if(!option){
+        cout<<"From "<<start<<endl;
+    }
     q.push(make_pair(0, first));
     visited.push_back(first);
     int dist = 0;
@@ -199,7 +213,9 @@ void Graph::reachability(string start){ //prompt for start IN MAIN
         Node* curr = q.front().second;
         dist = q.front().first;
         q.pop();
-        cout<<"At "<<curr->getBuildingName()<<" (distance "<<dist<<")"<<endl;
+        if(!option){
+            cout<<"At "<<curr->getBuildingName()<<" (distance "<<dist<<")"<<endl;
+        }
         for(int i = 0; i < curr->edges.size(); i++){
             bool alreadyVisited = false;
             for(int j = 0; j < visited.size(); j++){
@@ -213,5 +229,46 @@ void Graph::reachability(string start){ //prompt for start IN MAIN
             }
         }
     }
-    cout<<"Reachable: "<<dist<<" out of "<<buildings.size()<<endl;
+    if(!option){
+        cout<<"Reachable: "<<visited.size()<<" out of "<<buildings.size()<<endl; return;
+    }
+    int connectedSum = 1;
+    if(visited.size()!=buildings.size()){//not less than cus no way its vis bigger than buil
+        //visited is connected part one
+        vector<Node*> notMain;
+        for(int i = 0; i < buildings.size(); i++){//inefficient
+            bool isInBoth = false;
+            for(int j = 0; j < visited.size(); j++){
+                if(visited[j]->getBuildingName()==buildings[i]->getBuildingName()){
+                    isInBoth = true;
+                }
+            }
+            if(!isInBoth){
+                notMain.push_back(buildings[i]); //adds unconnected into main.
+                //recusion would be good were but seems extra :/
+            }
+        }
+        queue<Node*> q; //dont need dist anymore
+        Node* first = notMain[0];
+        q.push(first);
+        visited.push_back(first);
+        while(!q.empty()){  
+            Node* curr = q.front();
+            q.pop();
+            for(int i = 0; i < curr->edges.size(); i++){
+                bool alreadyVisited = false;
+                for(int j = 0; j < visited.size(); j++){
+                    if(curr->edges[i]==visited[j]){
+                        alreadyVisited = true;
+                    }
+                }
+                if(!alreadyVisited){
+                    visited.push_back(curr->edges[i]);
+                    q.push(curr->edges[i]);
+                }  
+            }
+        }
+        connectedSum++;
+        cout<<connectedSum;
+    }
 }
