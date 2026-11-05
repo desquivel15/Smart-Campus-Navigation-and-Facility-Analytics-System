@@ -24,7 +24,7 @@ class Graph{
     void addEdges(vector<string> uniqStrings);
     void display(bool option = 0);
     void shortestPath(string start, string goal);
-    void reachability(string start);
+    void reachability(string start, bool option = 0);
 };
 
 #endif
