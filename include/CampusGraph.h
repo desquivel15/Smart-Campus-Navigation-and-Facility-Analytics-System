@@ -22,7 +22,7 @@ class Graph{
   public:
     void addBuildings(vector<string> uniqBuildings);
     void addEdges(vector<string> uniqStrings);
-    void display();
+    void display(bool option = 0);
     void shortestPath(string start, string goal);
     void reachability(string start);
 };
