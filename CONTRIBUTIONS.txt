@@ -2,3 +2,7 @@ Member A: My Nguyen
 - Facility (Facility.h / Facility.cpp): facility record
 - HashTable (HashTable.h / HashTable.cpp): hash table with separate chaining (HashInsert, HashGet, HashRemove), hash function, collision counting, diagnostic report
 - FacilityManager (FacilityManager.h / FacilityManager.cpp): load facilities.txt with validation, view all facilities, search facility by ID using the hash table
+Member B: Trish Bhakta
+- CampusGraph (CampusGraph.h / CampusGraph.cpp): graph of campus buildings and their connections, stored as an adjaceny list, containing classes Node and CampusGraph
+  - Node: contains building name, vector of node pointers of connections (edges), and sum of edges, along with name getter and sum edges getter, and an add connection function
+  - CampusGraph: contains vector of node pointers of all the nodes (buildings). to initialize, has functions addBuildings and addConnections which both take string vectors which get used to create buildings/nodes and add connections. display function can either show as the adjaceny list or with all the degrees and connected parts. shortest path uses BFS to find the shortest path from start to goal. reachability function shows all reachable buildings/nodes from start along with distance.
