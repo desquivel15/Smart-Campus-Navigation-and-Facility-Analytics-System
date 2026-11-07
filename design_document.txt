@@ -30,3 +30,5 @@ The collision is counted when there is an insertion into a non-empty bucket.
 
 2.1 Graph representation: adjacency list
 The graph is stored in a vector of buildings, and each building also has a vector of edges (pointers to the connected buildings). It is easy to loop through all the buildings and list their connected buildings so it is easy to print and represent as an adjacency list since adjacency lists list the nodes and their connected nodes. 
+2.2 BFS
+BFS is used in both shortestPath and reachability functions. Reachability lists the given node, its edges, and edges of edges with no repeats until nothing is left, so BFS was perfect for it. In shortest path, it also goes through all edges first before extending to the next distance.
