@@ -26,3 +26,7 @@ The collision is counted when there is an insertion into a non-empty bucket.
 - The hash table stores two values:
    Key = facility ID in uppercase
    Value = index of the facility in Facility Manager
+
+
+2.1 Graph representation: adjacency list
+The graph is stored in a vector of buildings, and each building also has a vector of edges (pointers to the connected buildings). It is easy to loop through all the buildings and list their connected buildings so it is easy to print and represent as an adjacency list since adjacency lists list the nodes and their connected nodes. 
