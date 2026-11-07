@@ -10,6 +10,7 @@
 #include <vector>
 #include <fstream>
 #include <sstream> 
+#include <cctype>
 
 using namespace std;
 
@@ -40,7 +41,14 @@ void displayMenu() {
 
 }
 
-int main(){
+// argc and argv allow an optional data directory to be passed down when running program
+int main(int argc, char* argv[]){
+
+  string dataDirectory = "data";
+
+  if (argc > 1) {
+    dataDirectory = argv[1];
+  }
 
   // graph code
   int lineNumber = 0;
@@ -48,92 +56,114 @@ int main(){
   //file input section, reading data from files and separating into strings in vectots
   vector<string> buildings;
   ifstream inFile;
-  inFile.open("data/buildings.txt");
+  inFile.open(dataDirectory + "/buildings.txt");
+
+  string line;
+
   if (inFile.is_open() == false) {
         cout << "ERROR - File could not open.";
-        return 1;
   }
-  string line;
-  while(getline(inFile, line)){
-    bool alreadyExist = false;
-    bool isHeader = false;
-    stringstream lineStream(line);
-    lineNumber++;
-    string buildingName = line;
-    char firstChar = lowercased(buildingName).at(0);
-    if( (firstChar<97) || (firstChar>122) ){
-      isHeader = true; //gets rid of first line w/ # - dont have to repeat for connections since already checkes if buildings exist there
-    }
-    if(isHeader) continue;
-    for(int i = 0; i < buildings.size(); i++){
-      if(lowercased(buildingName)==(lowercased(buildings[i]))){
-        alreadyExist = true;
-        cout<<"ERROR - buildings.txt line "<<lineNumber<<" duplicate record"<<endl;
+  else {
+      while(getline(inFile, line)){
+        bool alreadyExist = false;
+        bool isHeader = false;
+        stringstream lineStream(line);
+        lineNumber++;
+
+        if (isBlank(line) || isComment(line)) {
+          continue;
+        }
+
+        string buildingName = line;
+        char firstChar = lowercased(buildingName).at(0);
+          if( (firstChar<97) || (firstChar>122) ){
+            isHeader = true; //gets rid of first line w/ # - dont have to repeat for connections since already checkes if buildings exist there
+          }
+          if(isHeader) continue;
+          for(int i = 0; i < buildings.size(); i++){
+            if(lowercased(buildingName)==(lowercased(buildings[i]))){
+              alreadyExist = true;
+              cout <<"ERROR - buildings.txt line "<<lineNumber<<" duplicate record"<<endl;
+            }
+          }
+          if(!alreadyExist) {
+            buildings.push_back(line);
+          } 
+          alreadyExist = false;
       }
-    }
-    if(!alreadyExist)  buildings.push_back(line);
-    alreadyExist = false;
   }
-  inFile.close();
-  lineNumber = 0;
+  
+    inFile.close();
+    lineNumber = 0;
   
   vector<string> connections;
-  inFile.open("data/connections.txt");
+  inFile.open(dataDirectory + "/connections.txt");
   if (inFile.is_open() == false) {
     cout << "ERROR - File could not open.";
-    return 1;
   }
-  while(getline(inFile, line)){
-    bool build1Exist = false;
-    bool build2Exist = false;
-    stringstream linestream(line);
-    if(!line.empty() && line.back()=='\r'){
-      line.pop_back();
-    } //get rid of /r
-    lineNumber++;
-    string building1, building2;
-    getline(linestream, building1, '|');
-    getline(linestream, building2);
-    for(int i = 0; i < buildings.size(); i++){
-      if( lowercased(building1) == lowercased(buildings[i]) ){
-        build1Exist = true;
+
+  else {
+
+    while(getline(inFile, line)){
+      bool build1Exist = false;
+      bool build2Exist = false;
+      if(!line.empty() && line.back()=='\r'){
+        line.pop_back();
+      } //get rid of /r
+      
+      lineNumber++;
+
+      if (isBlank(line) || isComment(line)) {
+        continue;
       }
-      if( lowercased(building2) == lowercased(buildings[i]) ){
-        build2Exist = true;
-      }
-      if( lowercased(building1) == lowercased(building2) ){ 
-        build1Exist = false;
-        build2Exist = false;
-      }
-    }
-    bool alreadyExist = false;
-    if(connections.size()>2){
-      for(int i = 0; i < connections.size()-1; i+=2){
-        if( (connections[i]==building1) && (connections[i+1]==building2) ){
-          alreadyExist = true;
-          cout<<"ERROR - connections.txt line "<<lineNumber<<" duplicate record"<<endl;
+
+      stringstream linestream(line);
+      
+      string building1, building2;
+      getline(linestream, building1, '|');
+      getline(linestream, building2);
+      for(int i = 0; i < buildings.size(); i++){
+        if( lowercased(building1) == lowercased(buildings[i]) ){
+          build1Exist = true;
         }
-        if( (connections[i+1]==building1) && (connections[i]==building2) ){
-          alreadyExist = true;
-          cout<<"ERROR - connections.txt line "<<lineNumber<<" duplicate record"<<endl;
+        if( lowercased(building2) == lowercased(buildings[i]) ){
+          build2Exist = true;
+        }
+        if( lowercased(building1) == lowercased(building2) ){ 
+          build1Exist = false;
+          build2Exist = false;
         }
       }
-    }
-    if(build1Exist && build2Exist && !alreadyExist){ //BOTH buildings that are connected get added here - when adding to graph accesses both
-      connections.push_back(building1);
-      connections.push_back(building2);
+      bool alreadyExist = false;
+      if(connections.size()>2){
+        for(int i = 0; i < connections.size()-1; i+=2){
+          if( (connections[i]==building1) && (connections[i+1]==building2) ){
+            alreadyExist = true;
+            cout<<"ERROR - connections.txt line "<<lineNumber<<" duplicate record"<<endl;
+          }
+          if( (connections[i+1]==building1) && (connections[i]==building2) ){
+            alreadyExist = true;
+            cout<<"ERROR - connections.txt line "<<lineNumber<<" duplicate record"<<endl;
+          }
+        }
+      }
+      if(build1Exist && build2Exist && !alreadyExist){ //BOTH buildings that are connected get added here - when adding to graph accesses both
+        connections.push_back(building1);
+        connections.push_back(building2);
+      }
     }
   }
-  lineNumber = 0;
+    inFile.close();
+    lineNumber = 0;
 
   // load facilities.txt
   FacilityManager facilityManager;
-  facilityManager.loadFacilityFile("data/facilities.txt", buildings);
+  facilityManager.loadFacilityFile( dataDirectory + "/facilities.txt", buildings);
 
   // Department Tree 
   DepartmentTree departmentTree;
 
-  departmentTree.loadDepartments("data/departments.txt");
+  departmentTree.loadDepartments(dataDirectory + "/departments.txt");
 
   //creating and intializing graph
   Graph theGraph;
@@ -141,9 +171,10 @@ int main(){
   theGraph.addEdges(connections);
   
   // calling displayMenu()
-  int choice;
+  int choice = -1;
 
   do {
+      cout << endl;
       displayMenu();
 
       string input;
@@ -164,7 +195,6 @@ int main(){
       choice = stoi(input);
 
       switch (choice) {
-
         case 0:
             break;
 
@@ -189,15 +219,16 @@ int main(){
             theGraph.display(0);
             break;
 
-        case 5:
+        case 5: {
             cout<<"Enter starting building name: ";
             string buildName;
             getline(cin, buildName);
-            if(buildName.empty(){
+            if(buildName.empty()) {
                 cout<<"ERROR - need starting building."<<endl; break;
             }
             theGraph.reachability(buildName);
             break;
+            }
 
         case 6: {
             string name;
@@ -207,6 +238,11 @@ int main(){
 
             if (name.empty()) {
                 cout << "ERROR - Department name cannot be blank." << endl;
+                break;
+            }
+
+            if (departmentTree.searchDepartment(name) != nullptr) {
+                cout << "ERROR - Department name already exists." << endl;
                 break;
             }
             

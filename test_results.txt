@@ -1,0 +1,145 @@
+MILESTONE 1 TEST RESULTS
+
+DEPARTMENT TREE / MENU TESTS
+
+Test: Add department with valid parent
+Input: Department = Software Engineering, Parent = Computer Science
+Expected: Software Engineering is added as a child of Computer Science.
+Actual: Software Engineering was added and displayed with Computer Science as its parent.
+Result: PASS
+
+Test: Search existing department
+Input: Software Engineering
+Expected: Department information is displayed.
+Actual: Department displayed with parent Computer Science, 0 children, and depth 3.
+Result: PASS
+
+Test: Add duplicate department
+Input: Computer Science
+Expected: Duplicate department is rejected and parent is not requested.
+Actual: Program displayed an error that the department already exists and did not request a parent.
+Result: PASS
+
+Test: Add department with unknown parent
+Input: Department = Robotics, Parent = Fake Department
+Expected: Department is rejected because the parent does not exist.
+Actual: Program displayed "Parent department not found." Robotics was not added.
+Result: PASS
+
+Test: Search rejected/missing department
+Input: Robotics
+Expected: Department is not found.
+Actual: Program displayed "Department not found."
+Result: PASS
+
+Test: Blank department name
+Input: [blank]
+Expected: Program rejects the blank department name.
+Actual: Program displayed an error and returned to the menu.
+Result: PASS
+
+Test: Blank department search
+Input: [blank]
+Expected: Program rejects the blank search.
+Actual: Program displayed an error and returned to the menu.
+Result: PASS
+
+Test: Display department hierarchy
+Input: Menu option 8
+Expected: Departments are displayed as a hierarchy from the root.
+Actual: University was displayed as the root with colleges and departments indented beneath their parents.
+Result: PASS
+
+Test: Preorder traversal
+Input: Menu option 9
+Expected: Departments are displayed in preorder.
+Actual: Departments were displayed in preorder beginning with University.
+Result: PASS
+
+Test: Invalid menu - letters
+Input: abc
+Expected: Invalid input is rejected and menu continues.
+Actual: Program displayed "ERROR - Invalid Menu Input" and continued.
+Result: PASS
+
+Test: Invalid menu - out-of-range multi-digit input
+Input: 12
+Expected: Invalid input is rejected and menu continues.
+Actual: Program displayed "ERROR - Invalid Menu Input" and continued.
+Result: PASS
+
+Test: Invalid menu - mixed text/numeric input
+Input: 9x
+Expected: Invalid input is rejected and menu continues.
+Actual: Program displayed "ERROR - Invalid Menu Input" and continued.
+Result: PASS
+
+Test: Invalid menu - blank input
+Input: [blank]
+Expected: Invalid input is rejected and menu continues.
+Actual: Program displayed "ERROR - Invalid Menu Input" and continued.
+Result: PASS
+
+FACILITY TESTS
+
+Test: Display all facilities
+Input: Menu option 1
+Expected: All loaded facilities are displayed.
+Actual: All 10 loaded facilities were displayed.
+Result: PASS
+
+Test: Search existing facility
+Input: F004
+Expected: F004 is found and its information is displayed.
+Actual: F004 was found and displayed as Computer Lab A, Science Building, Computer Lab.
+Result: PASS
+
+Test: Search facility with lowercase ID
+Input: f004
+Expected: Facility search accepts lowercase input and finds F004.
+Actual: F004 was found and its facility information was displayed.
+Result: PASS
+
+Test: Search facility with invalid ID format
+Input: abc
+Expected: Invalid facility ID format is rejected.
+Actual: Program displayed an invalid ID error.
+Result: PASS
+
+Test: Search nonexistent facility
+Input: F999
+Expected: Facility is not found.
+Actual: Program displayed "F999 is not found."
+Result: PASS
+
+GRAPH / BFS TESTS
+
+Test: Display campus graph
+Input: Menu option 3
+Expected: Buildings and their connections are displayed.
+Actual: All 7 buildings and 6 connections were displayed.
+Result: PASS
+
+Test: Display graph counts and degrees
+Input: Menu option 4
+Expected: Building degrees, total buildings, total connections, and connected components are displayed.
+Actual: Program displayed 7 buildings, 6 connections, and 2 connected components with building degrees.
+Result: PASS
+
+Test: BFS from connected building
+Input: Library
+Expected: All buildings reachable from Library are displayed with their distances.
+Actual: Library, Student Union, Business Building, Science Building, Gym, and Engineering Building were displayed. Reachable count was 6 out of 7.
+Result: PASS
+
+Test: BFS from isolated building
+Input: Observatory
+Expected: Only Observatory is reachable.
+Actual: Observatory was displayed at distance 0. Reachable count was 1 out of 7.
+Result: PASS
+
+Test: BFS from nonexistent building
+Input: Fake Building
+Expected: Invalid starting building is rejected.
+Actual: Program displayed "ERROR - invalid starting building."
+Result: PASS

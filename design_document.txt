@@ -32,3 +32,21 @@ The collision is counted when there is an insertion into a non-empty bucket.
 The graph is stored in a vector of buildings, and each building also has a vector of edges (pointers to the connected buildings). It is easy to loop through all the buildings and list their connected buildings so it is easy to print and represent as an adjacency list since adjacency lists list the nodes and their connected nodes. 
 2.2 BFS
 BFS is used in both shortestPath and reachability functions. Reachability lists the given node, its edges, and edges of edges with no repeats until nothing is left, so BFS was perfect for it. In shortest path, it also goes through all edges first before extending to the next distance.
+
+3.1 Tree Representation: General Tree
+- The department hierarchy is stored as a general tree.
+- Each DepartmentNode stores its department name, a pointer to its parent, and a vector of pointers to its children.
+- DepartmentTree stores a pointer to the root.
+- General tree was chose because one department can have multiple child departments, rather than being limited to two children.
+
+3.2 Search and department information
+- Search starts at the root and recursively searches through the children.
+- Department names are compared case-insensitively.
+- Search is used to find departments, locate parents when adding departments, and detect duplicates.
+- Department information displays the department's name, parent, number of children, and depth.
+
+3.3 Hierarchy and preorder traversal
+- Preorder visits the current department first then its children
+- Children are visited in insertion order
+- The hierarchy display uses each department's depth to determine indentation
+- This produces the department hierarchy from the root downward.

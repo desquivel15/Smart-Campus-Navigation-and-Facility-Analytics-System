@@ -1,4 +1,5 @@
 #include "DepartmentTree.h"
+#include "RuleHelper.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -12,18 +13,6 @@ string toLowerCase(string text) {
 		c = tolower(c);
 	}
 
-	return text;
-}
-
-string trim(string text) {
-	while (!text.empty() && isspace(text[0])) {
-		text.erase(0, 1);
-		
-	}
-
-	while (!text.empty() && isspace(text.back())) {
-		text.pop_back();
-	}
 	return text;
 }
 
