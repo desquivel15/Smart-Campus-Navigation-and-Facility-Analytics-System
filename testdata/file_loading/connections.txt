@@ -1,0 +1,6 @@
+# BuildingA|BuildingB
+Library|Gym
+Gym|Science Building
+Gym|Library
+Library|Annex
+Library
