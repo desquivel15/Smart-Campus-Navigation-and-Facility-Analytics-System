@@ -1,0 +1,8 @@
+# FacilityID|FacilityName|BuildingName|Category
+F001|Reading Room|Library|Library
+F002|Lab A|Science Building|Computer Lab
+
+f001|Duplicate ID|Gym|Recreation
+F003|Room X|Annex|Classroom
+F004|Too Few|Library
+F005|Too|Many|Fields|Here
