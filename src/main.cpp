@@ -137,6 +137,8 @@ int main(int argc, char* argv[]){
       string building1, building2;
       getline(linestream, building1, '|');
       getline(linestream, building2);
+      building1 = trim(building1);
+      building2 = trim(building2);
       for(int i = 0; i < buildings.size(); i++){
         if( lowercased(building1) == lowercased(buildings[i]) ){
           build1Exist = true;
@@ -150,7 +152,7 @@ int main(int argc, char* argv[]){
         }
       }
       bool alreadyExist = false;
-      if(connections.size()>2){
+      if(connections.size()>=2){
         for(int i = 0; i < connections.size()-1; i+=2){
           if( (connections[i]==building1) && (connections[i+1]==building2) ){
             alreadyExist = true;
@@ -168,10 +170,29 @@ int main(int argc, char* argv[]){
         connectionsAccepted++;
       }
       else {
-        connectionRejected++;
+        if (!alreadyExist) {
+          if (building1 == "" || building2 == "") {
+            cout << "ERROR - connections.txt line " << lineNumber
+                 << " wrong field count" << endl;
+          }
+          else if (lowercased(building1) == lowercased(building2)) {
+            cout << "ERROR - connections.txt line " << lineNumber
+                 << " self-connection " << building1 << endl;
+          }
+          else if (!build1Exist) {
+            cout << "ERROR - connections.txt line " << lineNumber
+                 << " unknown building " << building1 << endl;
+          }
+          else {
+            cout << "ERROR - connections.txt line " << lineNumber
+                 << " unknown building " << building2 << endl;
+          }
       }
+      connectionRejected++;
     }
   }
+}
+
     inFile.close();
     lineNumber = 0;
     cout << "[" << dataDirectory << "/connections.txt]: "
@@ -335,7 +356,7 @@ int main(int argc, char* argv[]){
       }
 
   } while (choice != 0 && choice != 10);
-  
+
   return 0;
 }
 
