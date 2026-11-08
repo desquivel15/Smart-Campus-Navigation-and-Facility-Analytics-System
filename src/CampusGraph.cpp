@@ -1,4 +1,5 @@
 #include "CampusGraph.h"
+#include "RuleHelper.h"
 #include <iostream>
 #include <queue>
 #include <utility>
@@ -67,10 +68,17 @@ void Graph::display(bool option){
                 }
             } else {//option = 1,, ADJACENY LIST, VIEW CAMPUS GRAPH
                 cout<<": ";
+                //print "no connection" instead of empty as requirement
+                if(buildings[i]->getNumConnections()==0) {
+                    cout << "(no connections)";
+                }
                 for(int j = 0; j < buildings[i]->getNumConnections(); j++){
                     cout<<buildings[i]->edges[j]->getBuildingName()<<", ";
                 }
-                cout<<"\b\b "<<endl;
+                if(buildings[i]->getNumConnections()>0) {
+                    cout<<"\b\b ";
+                }
+                cout<<endl;
             }
             sumGraphConnect += buildings[i]->getNumConnections();
         }
@@ -195,7 +203,7 @@ void Graph::reachability(string start, bool option){ //prompt for start IN MAIN
     vector<Node*> visited;
     Node* first = NULL;
     for(int i = 0; i < buildings.size(); i++){
-        if(buildings[i]->getBuildingName()==start){
+        if(toUpper(buildings[i]->getBuildingName())==toUpper(trim(start))) { //ignore case and outer spaces
             first = buildings[i];
             break;
         }
@@ -270,5 +278,8 @@ void Graph::reachability(string start, bool option){ //prompt for start IN MAIN
         }
         connectedSum++;
         cout<<connectedSum;
+    }
+    else {
+        cout << connectedSum; //whole graph is connected
     }
 }
