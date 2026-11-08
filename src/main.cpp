@@ -37,7 +37,7 @@ void displayMenu() {
   cout << "7. Search department" << endl;
   cout << "8. Display department hierarchy" << endl;
   cout << "9. Run preorder traversal" << endl;
-  cout << "0. Exit" << endl;
+  cout << "10. Exit" << endl;
 
 }
 
@@ -59,9 +59,12 @@ int main(int argc, char* argv[]){
   inFile.open(dataDirectory + "/buildings.txt");
 
   string line;
+  int buildingsAccepted = 0;
+  int buildingsRejected = 0;
 
   if (inFile.is_open() == false) {
-        cout << "ERROR - File could not open.";
+        cout << "ERROR - Could not open " << dataDirectory
+             << "/buildings.txt" << endl;
   }
   else {
       while(getline(inFile, line)){
@@ -74,7 +77,7 @@ int main(int argc, char* argv[]){
           continue;
         }
 
-        string buildingName = line;
+        string buildingName = trim(line);
         char firstChar = lowercased(buildingName).at(0);
           if( (firstChar<97) || (firstChar>122) ){
             isHeader = true; //gets rid of first line w/ # - dont have to repeat for connections since already checkes if buildings exist there
@@ -87,19 +90,31 @@ int main(int argc, char* argv[]){
             }
           }
           if(!alreadyExist) {
-            buildings.push_back(line);
+            buildings.push_back(buildingName);
+            buildingsAccepted++;
           } 
+          else {
+            buildingsRejected++;
+          }
           alreadyExist = false;
       }
   }
   
     inFile.close();
     lineNumber = 0;
+
+    cout << "[" << dataDirectory << "/buildings.txt]: " 
+         << buildingsAccepted << " accepted, "
+         << buildingsRejected << " rejected" << endl;
   
   vector<string> connections;
   inFile.open(dataDirectory + "/connections.txt");
+  int connectionsAccepted = 0;
+  int connectionRejected = 0;
+
   if (inFile.is_open() == false) {
-    cout << "ERROR - File could not open.";
+        cout << "ERROR - Could not open " << dataDirectory
+             << "/connections.txt" << endl;
   }
 
   else {
@@ -150,11 +165,18 @@ int main(int argc, char* argv[]){
       if(build1Exist && build2Exist && !alreadyExist){ //BOTH buildings that are connected get added here - when adding to graph accesses both
         connections.push_back(building1);
         connections.push_back(building2);
+        connectionsAccepted++;
+      }
+      else {
+        connectionRejected++;
       }
     }
   }
     inFile.close();
     lineNumber = 0;
+    cout << "[" << dataDirectory << "/connections.txt]: "
+         << connectionsAccepted << " accepted, "
+         << connectionRejected << " rejected" << endl;
 
   // load facilities.txt
   FacilityManager facilityManager;
@@ -162,7 +184,6 @@ int main(int argc, char* argv[]){
 
   // Department Tree 
   DepartmentTree departmentTree;
-
   departmentTree.loadDepartments(dataDirectory + "/departments.txt");
 
   //creating and intializing graph
@@ -181,21 +202,31 @@ int main(int argc, char* argv[]){
 
       cout << "Enter choice: ";
       getline(cin, input);
-
-      if (input.empty() || input.length() != 1) {
-        cout << "ERROR - Invalid Menu Input" << endl;
-        continue;
+      if (input.empty() && cin.eof()) {
+        return 0;
       }
 
-      if (!isdigit(input[0])) {
-        cout << "ERROR - Invalid Menu Input" << endl;
-        continue;
+      if (input == "10") {
+        choice = 10;
       }
+      else {
+        if (input.empty() || input.length() != 1) {
+          cout << "ERROR - Invalid Menu Input" << endl;
+          continue;
+        }
 
-      choice = stoi(input);
+        if (!isdigit(input[0])) {
+          cout << "ERROR - Invalid Menu Input" << endl;
+          continue;
+        }
 
+        choice = stoi(input);
+      }
+      
       switch (choice) {
-        case 0:
+        case 0: //option 0 to exit cleanly
+        case 10:
+            cout << "Exiting the program." << endl;
             break;
 
         case 1: {
@@ -223,6 +254,7 @@ int main(int argc, char* argv[]){
             cout<<"Enter starting building name: ";
             string buildName;
             getline(cin, buildName);
+            buildName = trim(buildName);
             if(buildName.empty()) {
                 cout<<"ERROR - need starting building."<<endl; break;
             }
@@ -235,6 +267,7 @@ int main(int argc, char* argv[]){
           
             cout << "Enter department name: ";
             getline(cin, name);
+            name = trim(name);
 
             if (name.empty()) {
                 cout << "ERROR - Department name cannot be blank." << endl;
@@ -248,6 +281,7 @@ int main(int argc, char* argv[]){
             
             if (departmentTree.isEmpty()) {
                 departmentTree.addDepartment(name, "NONE");
+                cout << name << " added as root department." << endl;
             }
 
             else {
@@ -255,8 +289,16 @@ int main(int argc, char* argv[]){
 
                 cout << "Enter parent department: ";
                 getline(cin, parentName);
+                parentName = trim(parentName);
 
-                departmentTree.addDepartment(name, parentName);
+                if (parentName.empty()) {
+                  cout << "ERROR - Parent department name cannot be blank." << endl;
+                  break;
+                }
+
+                if (departmentTree.addDepartment(name, parentName)) {
+                  cout << name << " added under " << parentName << "." << endl;
+                }
             }
 
             break;
@@ -267,6 +309,7 @@ int main(int argc, char* argv[]){
 
             cout << "Search department: ";
             getline(cin, holdName);
+            holdName = trim(holdName);
 
             if (holdName.empty()) {
               cout << "ERROR - Department cannot be blank" << endl;
@@ -291,12 +334,8 @@ int main(int argc, char* argv[]){
             break;
       }
 
-  } while (choice != 0);
+  } while (choice != 0 && choice != 10);
   
-
-
-
-
   return 0;
 }
 
