@@ -1,6 +1,69 @@
 MILESTONE 1 TEST RESULTS
 
-DEPARTMENT TREE / MENU TESTS
+FILE LOADING TESTS
+
+Test: Valid records, blank lines, comment lines, and wrong field counts
+Input: ./campus testdata/file_loading
+Expected: Blank and comment lines are skipped without warnings; valid records are accepted; facilities.txt line 7 (3 fields) and line 8 (5 fields) are rejected with warnings
+Actual: 
+[testdata/file_loading/buildings.txt]: 3 accepted, 1 rejected
+testdata/file_loading/facilities.txt expected 4 fields, line 7 has 3
+testdata/file_loading/facilities.txt expected 4 fields, line 8 has 5
+[testdata/file_loading/facilities.txt]: 2 accepted, 4 rejected. Hash Capacity: 15, entries: 2, collision: 0
+Result: PASS
+
+Test: Duplicates that differ by capitalization
+Input: ./campus testdata/file_loading
+Expected: Both rejected with a duplicate warning; the first record is kept
+Actual: 
+ERROR - buildings.txt line 6 duplicate record
+testdata/file_loading/facilities.txt line 5 has duplicate ID F001
+Result: PASS
+
+Test: Unknown references and duplicate/reversed connections
+Input: ./campus testdata/file_loading
+Expected: Each line is rejected with a warning naming the problem
+Actual: 
+ERROR - connections.txt line 4 duplicate record
+ERROR - connections.txt line 5 unknown building Annex
+testdata/file_loading/facilities.txt line 6 has unknown building Annex
+testdata/file_loading/departments.txt line 4: parent department not found
+Result: PASS
+
+Test: Missing file
+Input: ./campus testdata/missing (directory does not exist)
+Expected: An error naming each missing file, program continues to the menu without crashing
+Actual: 
+ERROR - Could not open testdata/missing/buildings.txt
+[testdata/missing/buildings.txt]: 0 accepted, 0 rejected
+ERROR - Could not open testdata/missing/connections.txt
+[testdata/missing/connections.txt]: 0 accepted, 0 rejected
+ERROR - Could not open the file testdata/missing/facilities.txt
+[testdata/missing/facilities.txt]: 0 accepted, 0 rejected. Hash Capacity: 15, entries: 0, collision: 0
+ERROR - Could not open testdata/missing/departments.txt
+The menu was displayed and the program continued without crashing.
+Result: PASS
+
+HASH TABLE TESTS
+
+Test: Hash collision
+Input: ./campus testdata/hash_collision
+F001 and F014 both hash to bucket 7 (capacity 15)
+Expected: Facilities summary shows hash capacity, entries, and 1 collision
+Actual: 
+[testdata/hash_collision/facilities.txt]: 2 accepted, 1 rejected. Hash Capacity: 15, entries: 2, collision: 1
+Result: PASS
+
+Test: Duplicate-key insertion does not change the collision count
+Input: ./campus testdata/hash_collision
+facilities.txt line 3: f014 (duplicate of F014)
+Expected: Duplicate ID is rejected, collision count stays 1
+Actual: 
+testdata/hash_collision/facilities.txt line 3 has duplicate ID F014
+[testdata/hash_collision/facilities.txt]: 2 accepted, 1 rejected. Hash Capacity: 15, entries: 2, collision: 1
+Result: PASS
+
+DEPARTMENT TREE
 
 Test: Add department with valid parent
 Input: Department = Software Engineering, Parent = Computer Science
@@ -12,6 +75,16 @@ Test: Search existing department
 Input: Software Engineering
 Expected: Department information is displayed.
 Actual: Department displayed with parent Computer Science, 0 children, and depth 3.
+Result: PASS
+
+Test: Search the root department
+Input: ./campus, menu 7, University
+Expected: Department: University, Parent: None, Children: 2, Depth: 0
+Actual: 
+Department: University
+Parent: None
+Children: 2
+Depth: 0
 Result: PASS
 
 Test: Add duplicate department
@@ -56,6 +129,42 @@ Expected: Departments are displayed in preorder.
 Actual: Departments were displayed in preorder beginning with University.
 Result: PASS
 
+Test: Empty tree display
+Input: ./campus testdata/empty_tree, menu 8
+Expected: Message shows that no departments are loaded
+Actual: No departments are loaded.
+Result: PASS
+
+Test: Add root to an empty tree
+Input: ./campus testdata/empty_tree, menu 6, department name "University"
+Expected: No parent prompt, University becomes the root
+Actual: 
+Enter department name: University
+University added as root department.
+Result: PASS
+
+Test: Root-only tree
+Input: ./campus testdata/root_only, menu 7, University
+Expected: 1 department loaded. University has Parent: None, Children: 0, Depth: 0
+Actual: 
+[testdata/root_only/departments.txt]: 1 accepted, 0 rejected
+Department: University
+Parent: None
+Children: 0
+Depth: 0
+Result: PASS
+
+Test: Name containing spaces
+Input: ./campus, menu 6, department name "Data Science", parent "Computer Science"
+Expected: The names with spaces are accepted, and Data Science is added under Computer Science
+Actual: 
+Enter department name: Data Science
+Enter parent department: Computer Science
+Data Science added under Computer Science.
+Result: PASS
+
+MENU TESTS
+
 Test: Invalid menu - letters
 Input: abc
 Expected: Invalid input is rejected and menu continues.
@@ -80,6 +189,7 @@ Expected: Invalid input is rejected and menu continues.
 Actual: Program displayed "ERROR - Invalid Menu Input" and continued.
 Result: PASS
 
+ 
 FACILITY TESTS
 
 Test: Display all facilities
