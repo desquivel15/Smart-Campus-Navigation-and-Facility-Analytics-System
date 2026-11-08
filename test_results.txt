@@ -1,6 +1,6 @@
 MILESTONE 1 TEST RESULTS
 
-FILE LOADING TESTS
+1. FILE LOADING TESTS
 
 Test 1: Valid records, blank lines, comment lines, and wrong field counts
 Input: ./campus testdata/file_loading
@@ -44,9 +44,39 @@ ERROR - Could not open testdata/missing/departments.txt
 The menu was displayed and the program continued without crashing.
 Result: PASS
 
-HASH TABLE TESTS
+2. HASH TABLE AND SEARCH TESTS
 
-Test 5: Hash collision
+Test 5: Display all facilities
+Input: Menu option 1
+Expected: All loaded facilities are displayed.
+Actual: All 10 loaded facilities were displayed.
+Result: PASS
+
+Test 6: Search existing facility
+Input: F004
+Expected: F004 is found and its information is displayed.
+Actual: F004 was found and displayed as Computer Lab A, Science Building, Computer Lab.
+Result: PASS
+
+Test 7: Search facility with lowercase ID
+Input: f004
+Expected: Facility search accepts lowercase input and finds F004.
+Actual: F004 was found and its facility information was displayed.
+Result: PASS
+
+Test 8: Search facility with invalid ID format
+Input: abc
+Expected: Invalid facility ID format is rejected.
+Actual: Program displayed an invalid ID error.
+Result: PASS
+
+Test 9: Search nonexistent facility
+Input: F999
+Expected: Facility is not found.
+Actual: Program displayed "F999 is not found."
+Result: PASS
+
+Test 10: Hash collision
 Input: ./campus testdata/hash_collision
 F001 and F014 both hash to bucket 7 (capacity 15)
 Expected: Facilities summary shows hash capacity, entries, and 1 collision
@@ -54,7 +84,7 @@ Actual:
 [testdata/hash_collision/facilities.txt]: 2 accepted, 1 rejected. Hash Capacity: 15, entries: 2, collision: 1
 Result: PASS
 
-Test 6: Duplicate-key insertion does not change the collision count
+Test 11: Duplicate-key insertion does not change the collision count
 Input: ./campus testdata/hash_collision
 facilities.txt line 3: f014 (duplicate of F014)
 Expected: Duplicate ID is rejected, collision count stays 1
@@ -63,71 +93,39 @@ testdata/hash_collision/facilities.txt line 3 has duplicate ID F014
 [testdata/hash_collision/facilities.txt]: 2 accepted, 1 rejected. Hash Capacity: 15, entries: 2, collision: 1
 Result: PASS
 
-DEPARTMENT TREE
+3. GRAPH AND BFS TESTS
 
-Test 7: Add department with valid parent
-Input: Department = Software Engineering, Parent = Computer Science
-Expected: Software Engineering is added as a child of Computer Science.
-Actual: Software Engineering was added and displayed with Computer Science as its parent.
+Test 12: Display campus graph
+Input: Menu option 3
+Expected: Buildings and their connections are displayed.
+Actual: All 7 buildings and 6 connections were displayed.
 Result: PASS
 
-Test 8: Search existing department
-Input: Software Engineering
-Expected: Department information is displayed.
-Actual: Department displayed with parent Computer Science, 0 children, and depth 3.
+Test 13: Display graph counts and degrees
+Input: Menu option 4
+Expected: Building degrees, total buildings, total connections, and connected components are displayed.
+Actual: Program displayed 7 buildings, 6 connections, and 2 connected components with building degrees.
 Result: PASS
 
-Test 9: Search the root department
-Input: ./campus, menu 7, University
-Expected: Department: University, Parent: None, Children: 2, Depth: 0
-Actual: 
-Department: University
-Parent: None
-Children: 2
-Depth: 0
+Test 14: BFS from connected building
+Input: Library
+Expected: All buildings reachable from Library are displayed with their distances.
+Actual: Library, Student Union, Business Building, Science Building, Gym, and Engineering Building were displayed. Reachable count was 6 out of 7.
 Result: PASS
 
-Test 10: Add duplicate department
-Input: Computer Science
-Expected: Duplicate department is rejected and parent is not requested.
-Actual: Program displayed an error that the department already exists and did not request a parent.
+Test 15: BFS from isolated building
+Input: Observatory
+Expected: Only Observatory is reachable.
+Actual: Observatory was displayed at distance 0. Reachable count was 1 out of 7.
 Result: PASS
 
-Test 11: Add department with unknown parent
-Input: Department = Robotics, Parent = Fake Department
-Expected: Department is rejected because the parent does not exist.
-Actual: Program displayed "Parent department not found." Robotics was not added.
+Test 16: BFS from nonexistent building
+Input: Fake Building
+Expected: Invalid starting building is rejected.
+Actual: Program displayed "ERROR - invalid starting building."
 Result: PASS
 
-Test 12: Search rejected/missing department
-Input: Robotics
-Expected: Department is not found.
-Actual: Program displayed "Department not found."
-Result: PASS
-
-Test 13: Blank department name
-Input: [blank]
-Expected: Program rejects the blank department name.
-Actual: Program displayed an error and returned to the menu.
-Result: PASS
-
-Test 14: Blank department search
-Input: [blank]
-Expected: Program rejects the blank search.
-Actual: Program displayed an error and returned to the menu.
-Result: PASS
-
-Test 15: Display department hierarchy
-Input: Menu option 8
-Expected: Departments are displayed as a hierarchy from the root.
-Actual: University was displayed as the root with colleges and departments indented beneath their parents.
-Result: PASS
-
-Test 16: Preorder traversal
-Input: Menu option 9
-Expected: Departments are displayed in preorder.
-Actual: Departments were displayed in preorder beginning with University.
-Result: PASS
+4. DEPARTMENT TREE TESTS
 
 Test 17: Empty tree display
 Input: ./campus testdata/empty_tree, menu 8
@@ -154,7 +152,85 @@ Children: 0
 Depth: 0
 Result: PASS
 
-Test 20: Name containing spaces
+Test 20: Search the root department
+Input: ./campus, menu 7, University
+Expected: Department: University, Parent: None, Children: 2, Depth: 0
+Actual: 
+Department: University
+Parent: None
+Children: 2
+Depth: 0
+Result: PASS
+
+Test 21: Add department with valid parent
+Input: Department = Software Engineering, Parent = Computer Science
+Expected: Software Engineering is added as a child of Computer Science.
+Actual: Software Engineering was added and displayed with Computer Science as its parent.
+Result: PASS
+
+Test 22: Search existing department
+Input: Software Engineering
+Expected: Department information is displayed.
+Actual: Department displayed with parent Computer Science, 0 children, and depth 3.
+Result: PASS
+
+Test 23: Add department with unknown parent
+Input: Department = Robotics, Parent = Fake Department
+Expected: Department is rejected because the parent does not exist.
+Actual: Program displayed "Parent department not found." Robotics was not added.
+Result: PASS
+
+Test 24: Search rejected/missing department
+Input: Robotics
+Expected: Department is not found.
+Actual: Program displayed "Department not found."
+Result: PASS
+
+Test 25: Add duplicate department
+Input: Computer Science
+Expected: Duplicate department is rejected and parent is not requested.
+Actual: Program displayed an error that the department already exists and did not request a parent.
+Result: PASS
+
+Test 26: Display department hierarchy
+Input: Menu option 8
+Expected: Departments are displayed as a hierarchy from the root.
+Actual: University was displayed as the root with colleges and departments indented beneath their parents.
+Result: PASS
+
+Test 27: Preorder traversal
+Input: Menu option 9
+Expected: Departments are displayed in preorder.
+Actual: Departments were displayed in preorder beginning with University.
+Result: PASS
+
+5. MENU TESTS
+
+Test 28: Invalid menu - letters
+Input: abc
+Expected: Invalid input is rejected and menu continues.
+Actual: Program displayed "ERROR - Invalid Menu Input" and continued.
+Result: PASS
+
+Test 29: Invalid menu - out-of-range multi-digit input
+Input: 12
+Expected: Invalid input is rejected and menu continues.
+Actual: Program displayed "ERROR - Invalid Menu Input" and continued.
+Result: PASS
+
+Test 30: Invalid menu - blank input
+Input: [blank]
+Expected: Invalid input is rejected and menu continues.
+Actual: Program displayed "ERROR - Invalid Menu Input" and continued.
+Result: PASS
+
+Test 31: Invalid menu - mixed text/numeric input
+Input: 9x
+Expected: Invalid input is rejected and menu continues.
+Actual: Program displayed "ERROR - Invalid Menu Input" and continued.
+Result: PASS
+
+Test 32: Name containing spaces
 Input: ./campus, menu 6, department name "Data Science", parent "Computer Science"
 Expected: The names with spaces are accepted, and Data Science is added under Computer Science
 Actual: 
@@ -163,93 +239,15 @@ Enter parent department: Computer Science
 Data Science added under Computer Science.
 Result: PASS
 
-MENU TESTS
-
-Test 21: Invalid menu - letters
-Input: abc
-Expected: Invalid input is rejected and menu continues.
-Actual: Program displayed "ERROR - Invalid Menu Input" and continued.
-Result: PASS
-
-Test 22: Invalid menu - out-of-range multi-digit input
-Input: 12
-Expected: Invalid input is rejected and menu continues.
-Actual: Program displayed "ERROR - Invalid Menu Input" and continued.
-Result: PASS
-
-Test 23: Invalid menu - mixed text/numeric input
-Input: 9x
-Expected: Invalid input is rejected and menu continues.
-Actual: Program displayed "ERROR - Invalid Menu Input" and continued.
-Result: PASS
-
-Test 24: Invalid menu - blank input
+Test 33: Blank department name
 Input: [blank]
-Expected: Invalid input is rejected and menu continues.
-Actual: Program displayed "ERROR - Invalid Menu Input" and continued.
+Expected: Program rejects the blank department name.
+Actual: Program displayed an error and returned to the menu.
 Result: PASS
 
- 
-FACILITY TESTS
-
-Test 25: Display all facilities
-Input: Menu option 1
-Expected: All loaded facilities are displayed.
-Actual: All 10 loaded facilities were displayed.
+Test 34: Blank department search
+Input: [blank]
+Expected: Program rejects the blank search.
+Actual: Program displayed an error and returned to the menu.
 Result: PASS
 
-Test 26: Search existing facility
-Input: F004
-Expected: F004 is found and its information is displayed.
-Actual: F004 was found and displayed as Computer Lab A, Science Building, Computer Lab.
-Result: PASS
-
-Test 27: Search facility with lowercase ID
-Input: f004
-Expected: Facility search accepts lowercase input and finds F004.
-Actual: F004 was found and its facility information was displayed.
-Result: PASS
-
-Test 28: Search facility with invalid ID format
-Input: abc
-Expected: Invalid facility ID format is rejected.
-Actual: Program displayed an invalid ID error.
-Result: PASS
-
-Test 29: Search nonexistent facility
-Input: F999
-Expected: Facility is not found.
-Actual: Program displayed "F999 is not found."
-Result: PASS
-
-GRAPH / BFS TESTS
-
-Test 30: Display campus graph
-Input: Menu option 3
-Expected: Buildings and their connections are displayed.
-Actual: All 7 buildings and 6 connections were displayed.
-Result: PASS
-
-Test 31: Display graph counts and degrees
-Input: Menu option 4
-Expected: Building degrees, total buildings, total connections, and connected components are displayed.
-Actual: Program displayed 7 buildings, 6 connections, and 2 connected components with building degrees.
-Result: PASS
-
-Test 32: BFS from connected building
-Input: Library
-Expected: All buildings reachable from Library are displayed with their distances.
-Actual: Library, Student Union, Business Building, Science Building, Gym, and Engineering Building were displayed. Reachable count was 6 out of 7.
-Result: PASS
-
-Test 33: BFS from isolated building
-Input: Observatory
-Expected: Only Observatory is reachable.
-Actual: Observatory was displayed at distance 0. Reachable count was 1 out of 7.
-Result: PASS
-
-Test 34: BFS from nonexistent building
-Input: Fake Building
-Expected: Invalid starting building is rejected.
-Actual: Program displayed "ERROR - invalid starting building."
-Result: PASS
