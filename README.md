@@ -2,7 +2,7 @@
 A C++ program that loads campus data from text files and lets a user locate facilities, explore building connections, find reachable buildings using BFS, browse a department hierarchy, and view graph information.
 
 # Link to GitHub Repository
-https://github.com/desquivel15 Smart-Campus-Navigation-and-Facility-Analytics-System.git
+https://github.com/desquivel15Smart-Campus-Navigation-and-Facility-Analytics-System.git
 
 # Build Instructions
 
