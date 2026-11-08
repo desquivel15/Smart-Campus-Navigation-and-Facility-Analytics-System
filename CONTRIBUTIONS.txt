@@ -18,3 +18,5 @@ Member C: Danniela Esquivel
 Shared Work:
 - Integrated the FacilityManager, CampusGraph, and DepartmentTree components into main.cpp and menu system.
 - Tested the integrated program and debugged issues between components.
+
+https://github.com/desquivel15/Smart-Campus-Navigation-and-Facility-Analytics-System/tree/main
