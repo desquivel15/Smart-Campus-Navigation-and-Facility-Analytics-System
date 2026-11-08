@@ -15,7 +15,7 @@ void FacilityManager::loadFacilityFile(string filePath, vector<string>buildings)
 
     if (inFile.is_open() == false) {
         cout << "ERROR - Could not open the file " << filePath << endl;
-        cout << filePath << ": 0 accepted, 0 rejected. "
+        cout << "[" << filePath << "]: 0 accepted, 0 rejected. "
              << "Hash Capacity: " << idHashTable.getCapacity() << ", "
              << "entries: " << idHashTable.getEntries() << ", "
              << "collision: " << idHashTable.getCollisions() << endl;
@@ -108,7 +108,7 @@ void FacilityManager::loadFacilityFile(string filePath, vector<string>buildings)
 
     inFile.close();
     
-    cout << filePath << ": " << acceptedCount << " accepted, "
+    cout << "[" << filePath << "]: " << acceptedCount << " accepted, "
          << rejectedCount << " rejected. " 
          << "Hash Capacity: " << idHashTable.getCapacity() << ", "
          << "entries: " << idHashTable.getEntries() << ", "
