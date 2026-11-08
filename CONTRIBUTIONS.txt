@@ -1,7 +1,10 @@
 Member A: My Nguyen
 - Facility (Facility.h / Facility.cpp): facility record
-- HashTable (HashTable.h / HashTable.cpp): hash table with separate chaining (HashInsert, HashGet, HashRemove), hash function, collision counting, diagnostic report
+- HashTable (HashTable.h / HashTable.cpp): hash table with separate chaining, hash function (HashInsert, HashGet, HashRemove), collision counting, diagnostic report
 - FacilityManager (FacilityManager.h / FacilityManager.cpp): load facilities.txt with validation, view all facilities, search facility by ID using the hash table
+- RuleHelper (RuleHelper.h / RuleHelper.cpp): shared string functions for the Section 4.1 rules (trim, uppercase, case-insensitive find, ID rules, blank/comment lines)
+- Test data: added testdata/hash_collision, testdata/file_loading, testdata/empty_tree, testdata/root_only for testing file loading, hash collision, and department tree 
+- Testing: ran and recorded the file loading, hash table. Besides the tree test cases added by Danniela, added some test cases according to project requirements (Search the root department, Empty tree display, Add root to an empty tree, Root-only tree)
 Member B: Trish Bhakta
 - CampusGraph (CampusGraph.h / CampusGraph.cpp): graph of campus buildings and their connections, stored as an adjacency list, containing classes Node and CampusGraph
   - Node: contains building name, vector of node pointers of connections (edges), and sum of edges, along with name getter and sum edges getter, and an add connection function
