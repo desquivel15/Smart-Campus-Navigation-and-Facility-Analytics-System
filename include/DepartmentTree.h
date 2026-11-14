@@ -20,8 +20,12 @@ class DepartmentTree {
 		DepartmentNode* root;
 		DepartmentNode* search(DepartmentNode* node, string name);
 		int getDepth(DepartmentNode* node);
+		int countDepartments(DepartmentNode* node);
+		int countLeaves(DepartmentNode* node);
+		int getHeight(DepartmentNode* node);
 
 		void preorder(DepartmentNode* node);
+		void postorder(DepartmentNode* node);
 		void displayHierarchy(DepartmentNode* node);
 
 	public:
@@ -32,7 +36,10 @@ class DepartmentTree {
 		DepartmentNode* searchDepartment(string name);
 
 		void displayPreorder();
+		void displayPostorder();
+		void displayLevelorder();
 		void displayHierarchy();
+		void displayStatistics();
 		void displayDepartmentInfo(string name);
 		bool loadDepartments(string filename);
 		bool isEmpty();

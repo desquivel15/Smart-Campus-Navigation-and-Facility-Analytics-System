@@ -4,6 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include <cctype>
+#include <queue>
 
 using namespace std;
 
@@ -117,6 +118,49 @@ void DepartmentTree::displayPreorder() {
 	}
 
 	preorder(root);
+}
+
+void DepartmentTree::postorder(DepartmentNode* node) {
+	if (node == nullptr) {
+		return;
+	}
+	for (DepartmentNode* child : node->children) {
+		postorder(child);
+	}
+	
+	cout << node->name << endl;
+}
+
+void DepartmentTree::displayPostorder() {
+
+	if (root == nullptr) {
+		cout << "No departments are loaded." << endl;
+		return;
+	}
+
+	postorder(root);
+}
+
+void DepartmentTree::displayLevelorder() {
+
+	if (root == nullptr) {
+		cout << "No departments are loaded." << endl;
+		return;
+	}
+
+	queue<DepartmentNode*> nodes;
+	nodes.push(root);
+
+	while(!nodes.empty()) {
+		DepartmentNode* current = nodes.front();
+		nodes.pop();
+
+		cout << current->name << endl;
+
+		for (DepartmentNode* child : current->children) {
+			nodes.push(child);
+		}
+	}
 }
 
 void DepartmentTree::displayHierarchy(DepartmentNode* node) {
@@ -247,6 +291,78 @@ bool DepartmentTree::loadDepartments(string filename) {
 	cout << "[" << filename << "]: " << accepted << " accepted, " << rejected << " rejected" << endl;
 	
 	return true;
+}
+
+int DepartmentTree::countDepartments(DepartmentNode* node) {
+	if (node == nullptr) {
+		return 0;
+	}
+
+	int count = 1;
+
+	for (DepartmentNode* child : node->children) {
+		count += countDepartments(child);
+	}
+
+	return count;
+}
+
+int DepartmentTree::countLeaves(DepartmentNode* node) {
+	if (node == nullptr) {
+		return 0;
+	}
+
+	if (node->children.empty()) {
+		return 1;
+	}
+
+	int leaves = 0;
+
+	for (DepartmentNode* child : node->children) {
+		leaves += countLeaves(child);
+	}
+
+	return leaves;
+}
+
+int DepartmentTree::getHeight(DepartmentNode* node) {
+
+	if (node == nullptr) {
+		return 0;
+	}
+	
+	if (node->children.empty()) {
+		return 0;
+	}
+
+	int maxHeight = 0;
+
+	for (DepartmentNode* child : node->children) {
+		int childHeight = 1 + getHeight(child);
+
+		if (childHeight > maxHeight) {
+			maxHeight = childHeight;
+		}
+	}
+
+	return maxHeight;
+}
+
+void DepartmentTree::displayStatistics() {
+
+	if (root == nullptr) {
+		cout << "Total Departments: 0" << endl;
+		cout << "Leaves: 0" << endl;
+		cout << "Tree Height: N/A" << endl;
+		return;
+	}
+	
+	else {
+		cout << "Total Departments: " << countDepartments(root) << endl;
+		cout << "Leaves: " << countLeaves(root) << endl;
+		cout << "Tree Height: " << getHeight(root) << endl;
+		return;
+	}
 }
 
 bool DepartmentTree::isEmpty() {
