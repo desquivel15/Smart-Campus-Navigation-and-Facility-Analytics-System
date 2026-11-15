@@ -30,14 +30,22 @@ void displayMenu() {
 
   cout << "1. View all facilities" << endl;
   cout << "2. Search facility by ID" << endl;
-  cout << "3. View campus graph" << endl;
-  cout << "4. Display graph counts and degrees" << endl;
-  cout << "5. Find reachable buildings (BFS)" << endl;
-  cout << "6. Add department" << endl;
-  cout << "7. Search department" << endl;
-  cout << "8. Display department hierarchy" << endl;
-  cout << "9. Run preorder traversal" << endl;
-  cout << "10. Exit" << endl;
+  cout << "3. Search facility by name" << endl;
+  cout << "4. Search facility by category" << endl;
+  cout << "5. View campus graph" << endl;
+  cout << "6. Display graph counts and degrees" << endl;
+  cout << "7. Find reachable buildings (BFS)" << endl;
+  cout << "8. Find shortest path (BFS)" << endl;
+  cout << "9. Add department" << endl;
+  cout << "10. Search department" << endl;
+  cout << "11. Display department hierarchy" << endl;
+  cout << "12. Preorder traversal" << endl;
+  cout << "13. Postorder traversal" << endl;
+  cout << "14. Level-order traversal" << endl;
+  cout << "15. Department statistics" << endl;
+  cout << "16. Facility category report" << endl;
+  cout << "17. Graph connectivity report" << endl;
+  cout << "18. Exit" << endl;
 
 }
 
@@ -227,28 +235,33 @@ int main(int argc, char* argv[]){
         return 0;
       }
 
-      if (input == "10") {
-        choice = 10;
+      
+      if (input.empty()) {
+          cout << "ERROR - Invalid Menu Input" << endl;
+          continue;
       }
-      else {
-        if (input.empty() || input.length() != 1) {
-          cout << "ERROR - Invalid Menu Input" << endl;
-          continue;
-        }
 
-        if (!isdigit(input[0])) {
-          cout << "ERROR - Invalid Menu Input" << endl;
-          continue;
-        }
+      bool validInput = true;
 
-        choice = stoi(input);
+      for (int i = 0; i < input.length(); i++) {
+      if (!isdigit(input[i])) {
+          validInput = false;
+      }
+      }
+
+      if (validInput == false) {
+        cout << "ERROR - Invalid Menu Input" << endl;
+        continue;
+      }
+
+      choice = stoi(input);
+
+      if (choice < 1 || choice > 18) {
+        cout << "ERROR - Invalid Menu Input" << endl;
+        continue;
       }
       
       switch (choice) {
-        case 0: //option 0 to exit cleanly
-        case 10:
-            cout << "Exiting the program." << endl;
-            break;
 
         case 1: {
             facilityManager.displayFacility();
@@ -264,14 +277,20 @@ int main(int argc, char* argv[]){
         }
         
         case 3:
+          break;
+
+        case 4:
+          break;
+        
+        case 5:
             theGraph.display(1);
             break;
 
-        case 4:
+        case 6:
             theGraph.display(0);
             break;
 
-        case 5: {
+        case 7: {
             cout<<"Enter starting building name: ";
             string buildName;
             getline(cin, buildName);
@@ -283,7 +302,10 @@ int main(int argc, char* argv[]){
             break;
             }
 
-        case 6: {
+        case 8:
+            break;
+
+        case 9: {
             string name;
           
             cout << "Enter department name: ";
@@ -325,7 +347,7 @@ int main(int argc, char* argv[]){
             break;
         }
 
-        case 7: {
+        case 10: {
             string holdName;
 
             cout << "Search department: ";
@@ -342,12 +364,34 @@ int main(int argc, char* argv[]){
             break;
         }
         
-        case 8: 
+        case 11: 
             departmentTree.displayHierarchy();
             break;
 
-        case 9:
+        case 12:
             departmentTree.displayPreorder();
+            break;
+
+          case 13:
+            departmentTree.displayPostorder();
+            break;
+
+          case 14:
+            departmentTree.displayLevelorder();
+            break;
+
+          case 15:
+            departmentTree.displayStatistics();
+            break;
+
+          case 16:
+            break;
+
+          case 17:
+            break;
+
+          case 18:
+            cout << "Exiting the program." << endl;
             break;
 
         default:
@@ -355,7 +399,7 @@ int main(int argc, char* argv[]){
             break;
       }
 
-  } while (choice != 0 && choice != 10);
+  } while (choice != 18);
 
   return 0;
 }
