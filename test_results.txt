@@ -58,6 +58,21 @@ testdata/final_loading/departments.txt line 4: duplicate department
 testdata/final_loading/departments.txt line 5: empty field
 Result: PASS
 
+Test: Extra whitespace around fields, a lowercase ID in a data file, and a # inside a name
+Input: ./campus testdata/final_loading, then menu 1 and menu 5
+- buildings.txt line 3: "  Gym  " (spaces around the name)
+- connections.txt line 4: "  Gym  |  Science Building  " (spaces around both names)
+- facilities.txt line 2: f001|Study Room #5|Library|Study Space (lowercase ID, and # inside the name)
+- facilities.txt line 3: "  F002  |  Lab A  |  Science Building  |  Computer Lab  " (spaces around every field)
+Expected: Spaces are trimmed, f001 is stored as F001, "Study Room #5" is accepted (not treated as a comment). All these records are accepted
+Actual: 
+F001 | Study Room #5 | Library | Study Space
+F002 | Lab A | Science Building | Computer Lab
+Library : Gym  
+Gym : Library, Science Building  
+Science Building : Gym 
+Result: PASS
+
 2. HASH TABLE AND SEARCH TESTS
 
 Test 5: Display all facilities
