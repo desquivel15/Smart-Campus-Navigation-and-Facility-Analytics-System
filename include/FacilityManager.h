@@ -22,6 +22,12 @@ class FacilityManager {
 
     void searchByID(string id);
 
+    void searchByName(string name);
+
+    void searchByCategory(string category);
+
+    void categoryReport();
+
     vector<Facility> getFacilities();
 };
 
