@@ -44,6 +44,20 @@ ERROR - Could not open testdata/missing/departments.txt
 The menu was displayed and the program continued without crashing.
 Result: PASS
 
+Test: Empty files, empty required fields, self-connections, and duplicate department names that differ by capitalization
+Input: ./campus testdata/final_loading
+- connections.txt line 3: Library|Library (self-connection)
+- facilities.txt line 4: F003||Gym|Recreation (facility name is empty)
+- departments.txt line 4: college of science|University (same name as line 3, only capitalization differs)
+- departments.txt line 5: |University (department name is empty)
+Expected: Each of these lines is rejected with a warning naming the problem
+Actual: 
+ERROR - connections.txt line 3 self-connection Library
+testdata/final_loading/facilities.txt line 4 has empty field
+testdata/final_loading/departments.txt line 4: duplicate department
+testdata/final_loading/departments.txt line 5: empty field
+Result: PASS
+
 2. HASH TABLE AND SEARCH TESTS
 
 Test 5: Display all facilities
