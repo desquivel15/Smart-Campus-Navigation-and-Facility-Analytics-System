@@ -1,0 +1,5 @@
+# FacilityID|FacilityName|BuildingName|Category
+F001|Room 101|Library|Classroom
+F002|Room 102|Gym|classroom
+F003|Lab A|Library|Computer Lab
+F004|Room 101|Gym|CLASSROOM
