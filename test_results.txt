@@ -93,6 +93,70 @@ testdata/hash_collision/facilities.txt line 3 has duplicate ID F014
 [testdata/hash_collision/facilities.txt]: 2 accepted, 1 rejected. Hash Capacity: 15, entries: 2, collision: 1
 Result: PASS
 
+Test: Search facility name - Multiple facilities with the same name
+Input: ./campus, menu 3, Room 101
+Expected: Both facilities named Room 101 are displayed in file order, matches: 2
+Actual: 
+F005 | Room 101 | Engineering Building | Classroom
+F007 | Room 101 | Business Building | Classroom
+Total facility name matches: 2
+Result: PASS
+
+Test: Search facility name - Name matches
+Input: ./campus, menu 3, Room 101
+Expected: Matching facilities are displayed with the match count
+Actual: 
+F005 | Room 101 | Engineering Building | Classroom
+F007 | Room 101 | Business Building | Classroom
+Total facility name matches: 2
+Result: PASS
+
+Test: Search facility name - Name does not match
+Input: ./campus, menu 3, No Room
+Expected: A not-found message and a match count of 0
+Actual: 
+The facility name No Room is not found.
+Total facility name matches: 0
+Result: PASS
+
+Test: Search facility name - Name ignores capitalization
+Input: ./campus, menu 3, room 101
+Expected: Same result as "Room 101"
+Actual: 
+F005 | Room 101 | Engineering Building | Classroom
+F007 | Room 101 | Business Building | Classroom
+Total facility name matches: 2
+Result: PASS
+
+Test: Search category - Category matches
+Input: ./campus, menu 4, Classroom
+Expected: All facilities in the Classroom category are displayed with the match count
+Actual: 
+F005 | Room 101 | Engineering Building | Classroom
+F007 | Room 101 | Business Building | Classroom
+F009 | Room 205 | Science Building | Classroom
+Total facility category matches: 3
+Result: PASS
+
+Test: Search category - Category does not match
+Input: ./campus, menu 4, No Category
+Expected: A not-found message and a match count of 0
+Actual: 
+The facility in category No Category is not found.
+Total facility category matches: 0
+Result: PASS
+
+Test: Search category - Category ignores capitalization
+Input: ./campus, menu 4, classroom
+Expected: Same result as "Classroom"
+Actual: 
+F005 | Room 101 | Engineering Building | Classroom
+F007 | Room 101 | Business Building | Classroom
+F009 | Room 205 | Science Building | Classroom
+Total facility category matches: 3
+Result: PASS
+
+
 3. GRAPH AND BFS TESTS
 
 Test 12: Display campus graph
@@ -249,5 +313,38 @@ Test 34: Blank department search
 Input: [blank]
 Expected: Program rejects the blank search.
 Actual: Program displayed an error and returned to the menu.
+Result: PASS
+
+Test: Category report with capitalization differences
+Input: ./campus testdata/category_case, menu 16. 
+Categories in facilities.txt: Classroom, classroom, Computer Lab, CLASSROOM
+Expected: Categories are grouped, ignoring capitalization, and display their percentages
+Actual: 
+Classroom: 3 (75.0%)
+Computer Lab: 1 (25.0%)
+Total: 4
+Result: PASS
+
+Test: Category report with no facilities
+Input: ./campus testdata/no_facility_case, menu 16
+facilities.txt is empty
+Expected: A message that no facilities are available and a total of zero
+Actual: 
+No facilities are available.
+Total: 0
+Result: PASS
+
+Test: Category report with the sample data
+Input: ./campus, menu 16
+Initial sample data of the project
+Expected: Exact counts and percentages
+Actual: 
+Library: 2 (20.0%)
+Tutoring Center: 1 (10.0%)
+Student Services Office: 1 (10.0%)
+Computer Lab: 2 (20.0%)
+Classroom: 3 (30.0%)
+Recreation: 1 (10.0%)
+Total: 10
 Result: PASS
 
