@@ -249,20 +249,20 @@ int main(int argc, char* argv[]){
       }
       }
 
-      if (validInput == false) {
+      if (validInput == false || input.length()>2) {
         cout << "ERROR - Invalid Menu Input" << endl;
         continue;
       }
 
       choice = stoi(input);
 
-      if (choice < 1 || choice > 18) {
+      if (choice < 0 || choice > 18) {
         cout << "ERROR - Invalid Menu Input" << endl;
         continue;
       }
       
       switch (choice) {
-
+        
         case 1: {
             facilityManager.displayFacility();
             break;
@@ -276,11 +276,29 @@ int main(int argc, char* argv[]){
             break;
         }
         
-        case 3:
+        case 3: {
+          string name;
+          cout << "Enter facility name: ";
+          getline(cin, name);
+          if(trim(name) == "") {
+            cout << "ERROR - Facility name cannot be blank." << endl;
+            break;
+          }
+          facilityManager.searchByName(name);
           break;
+        }
 
-        case 4:
+        case 4: {
+          string category;
+          cout << "Enter category: ";
+          getline(cin, category);
+          if(trim(category) == "") {
+            cout << "ERROR - Category cannot be blank." << endl;
+            break;
+          }
+          facilityManager.searchByCategory(category);
           break;
+        }
         
         case 5:
             theGraph.display(1);
@@ -384,11 +402,15 @@ int main(int argc, char* argv[]){
             departmentTree.displayStatistics();
             break;
 
-          case 16:
+          case 16: {
+            facilityManager.categoryReport();
             break;
+          }
 
           case 17:
             break;
+
+          case 0: //project requirement, option 0 exit cleanly
 
           case 18:
             cout << "Exiting the program." << endl;
@@ -399,8 +421,7 @@ int main(int argc, char* argv[]){
             break;
       }
 
-  } while (choice != 18);
+  } while (choice != 18 && choice != 0);
 
   return 0;
 }
-
