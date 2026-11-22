@@ -1,0 +1,4 @@
+# FacilityID|FacilityName|BuildingName|Category
+f001|Study Room #5|Library|Study Space
+  F002  |  Lab A  |  Science Building  |  Computer Lab  
+F003||Gym|Recreation
