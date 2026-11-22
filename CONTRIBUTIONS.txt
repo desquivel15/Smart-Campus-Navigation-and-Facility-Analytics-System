@@ -1,14 +1,24 @@
 Member A: My Nguyen
+Milestone 1:
 - Facility (Facility.h / Facility.cpp): facility record
 - HashTable (HashTable.h / HashTable.cpp): hash table with separate chaining, hash function (HashInsert, HashGet, HashRemove), collision counting, diagnostic report
 - FacilityManager (FacilityManager.h / FacilityManager.cpp): load facilities.txt with validation, view all facilities, search facility by ID using the hash table
 - RuleHelper (RuleHelper.h / RuleHelper.cpp): shared string functions for the Section 4.1 rules (trim, uppercase, case-insensitive find, ID rules, blank/comment lines)
 - Test data: added testdata/hash_collision, testdata/file_loading, testdata/empty_tree, testdata/root_only for testing file loading, hash collision, and department tree 
 - Testing: ran and recorded tests, including file loading, hash table (Hash collision, Duplicate-key insertion does not change the collision count), and department tree (Search the root department, Empty tree display, Add root to an empty tree, Root-only tree)
+Final:
+- Added searchByName to search facilities by name
+- Added searchByCategory to search facilities by category
+- Added categoryReport to group categories and show each category's count and percentage
+- Created test data and test cases for final file loading, name search, category search, and the category report
+Reflection:
+I built the facility module, including the hash table, ID/name/category search, and the category report. One bug I fixed was in HashInsert, as initially I put the block of adding a new item inside the duplicate-ID checking loop, so when the bucket is empty, the loop did not run, so nothing is added. Fixed by moving the adding new item block after the checking loop.
+
 Member B: Trish Bhakta
 - CampusGraph (CampusGraph.h / CampusGraph.cpp): graph of campus buildings and their connections, stored as an adjacency list, containing classes Node and CampusGraph
   - Node: contains building name, vector of node pointers of connections (edges), and sum of edges, along with name getter and sum edges getter, and an add connection function
   - CampusGraph: contains vector of node pointers of all the nodes (buildings). to initialize, has functions addBuildings and addConnections which both take string vectors which get used to create buildings/nodes and add connections. display function can either show as the adjaceny list or with all the degrees and connected parts. shortest path uses BFS to find the shortest path from start to goal. reachability function shows all reachable buildings/nodes from start along with distance.
+
 Member C: Danniela Esquivel
 - Department Tree (DepartmentTree.h / DepartmentTree.cpp) : general department tree using DepartmentNode
 - Department Node: contains department name, pointer to parent, vector of child pointers
