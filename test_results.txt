@@ -221,13 +221,13 @@ Result: PASS
 4. DEPARTMENT TREE TESTS
 
 Test 17: Empty tree display
-Input: ./campus testdata/empty_tree, menu 8
+Input: ./campus testdata/empty_tree, menu 11
 Expected: Message shows that no departments are loaded
 Actual: No departments are loaded.
 Result: PASS
 
 Test 18: Add root to an empty tree
-Input: ./campus testdata/empty_tree, menu 6, department name "University"
+Input: ./campus testdata/empty_tree, menu 9, department name "University"
 Expected: No parent prompt, University becomes the root
 Actual: 
 Enter department name: University
@@ -235,7 +235,7 @@ University added as root department.
 Result: PASS
 
 Test 19: Root-only tree
-Input: ./campus testdata/root_only, menu 7, University
+Input: ./campus testdata/root_only, menu 10, University
 Expected: 1 department loaded. University has Parent: None, Children: 0, Depth: 0
 Actual: 
 [testdata/root_only/departments.txt]: 1 accepted, 0 rejected
@@ -246,7 +246,7 @@ Depth: 0
 Result: PASS
 
 Test 20: Search the root department
-Input: ./campus, menu 7, University
+Input: ./campus, menu 10, University
 Expected: Department: University, Parent: None, Children: 2, Depth: 0
 Actual: 
 Department: University
@@ -286,45 +286,75 @@ Actual: Program displayed an error that the department already exists and did no
 Result: PASS
 
 Test 26: Display department hierarchy
-Input: Menu option 8
+Input: Menu option 11
 Expected: Departments are displayed as a hierarchy from the root.
 Actual: University was displayed as the root with colleges and departments indented beneath their parents.
 Result: PASS
 
 Test 27: Preorder traversal
-Input: Menu option 9
+Input: Menu option 12
 Expected: Departments are displayed in preorder.
 Actual: Departments were displayed in preorder beginning with University.
 Result: PASS
 
+Test 28: Postorder traversal
+Input: Menu option 13
+Expected: Departments are displayed in postorder.
+Actual: Departments were displayed in postorder beginning with Computer Science.
+Result: PASS
+
+Test 29: Level-order traversal
+Input: Menu option 14
+Expected: Departments are displayed in level-order.
+Actual: Departments were displayed in level-order beginning with University.
+Result: PASS
+
+Test 30: Sample tree
+Input: Menu option 15
+Expected: 7 total departments, 4 leaves, tree height 2
+Actual: 7 total departments, 4 leaves, tree height 2
+Result: PASS
+
+Test 31: Department statistics - root-only tree
+Input: testdata/root_only, menu 15
+Expected: 1 total department, 1 leaf, tree height 0
+Actual: 1 total department, 1 leaf, tree height 0
+Result: PASS
+
+Test 32: Department statistics - empty tree
+Input: testdata/empty_tree, menu 15
+Expected: 0 total departments, 0 leaves, tree height N/A
+Actual: 0 total departments, 0 leaves, tree height N/A
+Result: PASS
+
 5. MENU TESTS
 
-Test 28: Invalid menu - letters
+Test 33: Invalid menu - letters
 Input: abc
 Expected: Invalid input is rejected and menu continues.
 Actual: Program displayed "ERROR - Invalid Menu Input" and continued.
 Result: PASS
 
-Test 29: Invalid menu - out-of-range multi-digit input
-Input: 12
+Test 34: Invalid menu - out-of-range multi-digit input
+Input: 19
 Expected: Invalid input is rejected and menu continues.
 Actual: Program displayed "ERROR - Invalid Menu Input" and continued.
 Result: PASS
 
-Test 30: Invalid menu - blank input
+Test 35: Invalid menu - blank input
 Input: [blank]
 Expected: Invalid input is rejected and menu continues.
 Actual: Program displayed "ERROR - Invalid Menu Input" and continued.
 Result: PASS
 
-Test 31: Invalid menu - mixed text/numeric input
+Test 36: Invalid menu - mixed text/numeric input
 Input: 9x
 Expected: Invalid input is rejected and menu continues.
 Actual: Program displayed "ERROR - Invalid Menu Input" and continued.
 Result: PASS
 
-Test 32: Name containing spaces
-Input: ./campus, menu 6, department name "Data Science", parent "Computer Science"
+Test 37: Name containing spaces
+Input: ./campus, menu 9, department name "Data Science", parent "Computer Science"
 Expected: The names with spaces are accepted, and Data Science is added under Computer Science
 Actual: 
 Enter department name: Data Science
@@ -332,19 +362,19 @@ Enter parent department: Computer Science
 Data Science added under Computer Science.
 Result: PASS
 
-Test 33: Blank department name
+Test 38: Blank department name
 Input: [blank]
 Expected: Program rejects the blank department name.
 Actual: Program displayed an error and returned to the menu.
 Result: PASS
 
-Test 34: Blank department search
+Test 39: Blank department search
 Input: [blank]
 Expected: Program rejects the blank search.
 Actual: Program displayed an error and returned to the menu.
 Result: PASS
 
-Test: Category report with capitalization differences
+Test 40: Category report with capitalization differences
 Input: ./campus testdata/category_case, menu 16. 
 Categories in facilities.txt: Classroom, classroom, Computer Lab, CLASSROOM
 Expected: Categories are grouped, ignoring capitalization, and display their percentages
@@ -354,7 +384,7 @@ Computer Lab: 1 (25.0%)
 Total: 4
 Result: PASS
 
-Test: Category report with no facilities
+Test 41: Category report with no facilities
 Input: ./campus testdata/no_facility_case, menu 16
 facilities.txt is empty
 Expected: A message that no facilities are available and a total of zero
@@ -363,7 +393,7 @@ No facilities are available.
 Total: 0
 Result: PASS
 
-Test: Category report with the sample data
+Test 42: Category report with the sample data
 Input: ./campus, menu 16
 Initial sample data of the project
 Expected: Exact counts and percentages
