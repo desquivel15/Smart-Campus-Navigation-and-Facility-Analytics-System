@@ -1,14 +1,14 @@
 # Smart-Campus-Navigation-and-Facility-Analytics-System
-A C++ program that loads campus data from text files and lets a user locate facilities, explore building connections, find reachable buildings using BFS, browse a department hierarchy, and view graph information.
+A C++ program that loads campus data from text files and allows users to search for facilities by ID, name, or category, explore campus building connections, find reachable buildings and shortest paths using BFS, browse and modify a department hierarchy, perform department tree traversals, view department statistics, and generate facility category and graph connectivity reports.
 
 # Link to GitHub Repository
-https://github.com/desquivel15Smart-Campus-Navigation-and-Facility-Analytics-System.git
+https://github.com/desquivel15/Smart-Campus-Navigation-and-Facility-Analytics-System.git
 
 # Build Instructions
 
 Compile the program using g++:
 
-g++ -Iinclude src/main.cpp src/CampusGraph.cpp src/DepartmentTree.cpp src/Facility.cpp src/HashTable.cpp src/FacilityManager.cpp src/RuleHelper.cpp -o campus
+g++ -std=c++17 -Iinclude src/main.cpp src/CampusGraph.cpp src/DepartmentTree.cpp src/Facility.cpp src/HashTable.cpp src/FacilityManager.cpp src/RuleHelper.cpp -o campus
 
 # Run Instructions
 
@@ -59,7 +59,7 @@ design_document.txt
 - Project design and implementation decisions.
 
 test_results.txt
-- Results of the required Milestone 1 tests.
+- Results of the required Milestone 1 and Final project testing.
 
 .gitignore 
 - Specifies files that are excluded from the Git repository
