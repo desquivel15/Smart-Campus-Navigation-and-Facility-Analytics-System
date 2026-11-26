@@ -37,7 +37,7 @@ BFS is used in both shortestPath and reachability functions. Reachability lists 
 - The department hierarchy is stored as a general tree.
 - Each DepartmentNode stores its department name, a pointer to its parent, and a vector of pointers to its children.
 - DepartmentTree stores a pointer to the root.
-- General tree was chose because one department can have multiple child departments, rather than being limited to two children.
+- General tree was chosen because one department can have multiple child departments, rather than being limited to two children.
 
 3.2 Search and department information
 - Search starts at the root and recursively searches through the children.
@@ -46,7 +46,20 @@ BFS is used in both shortestPath and reachability functions. Reachability lists 
 - Department information displays the department's name, parent, number of children, and depth.
 
 3.3 Hierarchy and preorder traversal
-- Preorder visits the current department first then its children
-- Children are visited in insertion order
-- The hierarchy display uses each department's depth to determine indentation
+- Preorder visits the current department first, then recursively visits its children.
+- Children are visited in insertion order.
+- The hierarchy display uses each department's depth to determine indentation.
 - This produces the department hierarchy from the root downward.
+
+3.4 Postorder and level-order traversal
+- Postorder traversal recursively visits each department's children before displaying the current department.
+- Children are visited in insertion order.
+- Level-order traversal uses a queue to visit departments one level at a time, beginning with the root.
+- Each department's children are added to the queue in insertion order.
+
+3.5 Department statistics
+- Department statistics include the total number of departments, number of leaf departments, and tree height.
+- The total department count is calculated recursively by counting the current department and all of its descendants.
+- A leaf department is a department with no children. 
+- Tree height is measured by the number of edges on the longest path from the root to a leaf, so a root-only tree has a height of 0.
+- If the tree is empty, the total number of departments and leaves are 0 and the tree height is displayed as N/A.
