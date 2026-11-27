@@ -14,6 +14,11 @@ Node::Node(string name){
   buildingName = name;
   sumEdges = 0;
 }
+
+Node::~Node(){
+  edges.clear();
+}
+
 string Node::getBuildingName(){
   return buildingName;
 }
@@ -23,6 +28,13 @@ int Node::getNumConnections(){
 void Node::addConnection(Node* otherBuilding){
   edges.push_back(otherBuilding);
   sumEdges++;
+}
+
+Graph::~Graph(){
+  for(int i = 0; i < buildings.size(); i++){
+    delete buildings[i];
+  }
+  buildings.clear();
 }
 
 void Graph::addBuildings(vector<string> uniqBuildings){
