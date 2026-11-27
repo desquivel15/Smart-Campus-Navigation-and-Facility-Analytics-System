@@ -12,6 +12,7 @@ class Node{
   public:
     vector<Node*> edges;
     Node(string name);
+    ~Node();
     string getBuildingName();
     int getNumConnections();
     void addConnection(Node* otherBuilding);
@@ -20,6 +21,10 @@ class Node{
 class Graph{
   vector<Node*> buildings; //i think this counts as an adjacency list
   public:
+    ~Graph();
+    Graph() = default;
+    Graph(const Graph&) = delete;
+    Graph& operator=(const Graph&) = delete;
     void addBuildings(vector<string> uniqBuildings);
     void addEdges(vector<string> uniqStrings);
     void display(bool option = 0);
