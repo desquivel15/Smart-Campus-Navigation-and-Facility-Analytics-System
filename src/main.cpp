@@ -320,7 +320,21 @@ int main(int argc, char* argv[]){
             break;
             }
 
-        case 8:
+        case 8: //shortest path
+            string buildNameStart, buildNameEnd;
+            cout<<"Enter starting building name: ";
+            getline(cin, buildNameStart);
+            buildNameStart = trim(buildNameStart);
+            cout<<"Enter ending building name: ";
+            getline(cin, buildNameEnd);
+            buildNameEnd = trim(buildNameEnd);
+            if(buildNameStart.empty()) {
+                cout<<"ERROR - need starting building."<<endl; break;
+            }
+            if(buildNameEnd.empty()) {
+                cout<<"ERROR - need ending building."<<endl; break;
+            }
+            theGraph.shortestPath(buildNameStart, buildNameEnd);
             break;
 
         case 9: {
@@ -407,7 +421,8 @@ int main(int argc, char* argv[]){
             break;
           }
 
-          case 17:
+          case 17: //graph connectivity report
+            
             break;
 
           case 0: //project requirement, option 0 exit cleanly
