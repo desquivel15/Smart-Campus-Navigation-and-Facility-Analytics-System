@@ -15,9 +15,16 @@ Reflection:
 I built the facility module, including the hash table, ID/name/category search, and the category report. One bug I fixed was in HashInsert, as initially I put the block of adding a new item inside the duplicate-ID checking loop, so when the bucket is empty, the loop did not run, so nothing is added. Fixed by moving the adding new item block after the checking loop.
 
 Member B: Trish Bhakta
+Milestone 1:
 - CampusGraph (CampusGraph.h / CampusGraph.cpp): graph of campus buildings and their connections, stored as an adjacency list, containing classes Node and CampusGraph
   - Node: contains building name, vector of node pointers of connections (edges), and sum of edges, along with name getter and sum edges getter, and an add connection function
-  - CampusGraph: contains vector of node pointers of all the nodes (buildings). to initialize, has functions addBuildings and addConnections which both take string vectors which get used to create buildings/nodes and add connections. display function can either show as the adjaceny list or with all the degrees and connected parts. shortest path uses BFS to find the shortest path from start to goal. reachability function shows all reachable buildings/nodes from start along with distance.
+  - CampusGraph: contains vector of node pointers of all the nodes (buildings). to initialize, has functions addBuildings and addConnections which both take string vectors which get used to create buildings/nodes and add connections. display function can either show as the adjacency list or with all the degrees and connected parts. shortest path uses BFS to find the shortest path from start to goal. reachability function shows all reachable buildings/nodes from start along with distance.
+Final:
+ - Added destructors for the Node class and the Graph class.
+ - Added options to reachability so printing anything is toggleable, and printing specifically start and end/distance is toggleable.
+ - Added connectivityReport function that prints number of nodes, number of connections, a list of nodes with the highest degree, a list of nodes that have no connections, and the number of connected parts. 
+Reflection:
+ - I built the campus graph, with file loading of buildings and connections, graph populating, and multiple uses of BFS for connectivity and shortest path. My shortest path and reachability function have similar functions so they have similar code, but they do different things so I had to ensure each one did what I wanted it to do. One bug I fixed is that the BFS algorithm would output all buildings with the same connection, so I created the struct 'shortestPathVertex' with an int for distance and a node pointer for the previous building, that I 'make_pair'ed with the actual Node pointer so for each vertex I knew the previous and the distance from start, similar to Dijkstra's algorithm. The previous was used so I could backtrack from the actual ending node to the start, without repeats - the way nodes were initialized from the graph is the same order they are added in, so ties are broken by initialization order. Reachability didn't need previous so in that function (which was also modeled after Dijsktra's algorithm) the Nodes are just paired with distance so disconnected nodes can be found and checked for alternate connections. 
 
 Member C: Danniela Esquivel
 Milestone 1:
