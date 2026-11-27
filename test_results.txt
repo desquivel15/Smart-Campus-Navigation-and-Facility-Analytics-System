@@ -407,3 +407,39 @@ Recreation: 1 (10.0%)
 Total: 10
 Result: PASS
 
+FINAL TESTS - GRAPH AND BFS
+Test 43: Shortest path where start = end
+Input: 
+Expected: 
+Actual: 
+Result: 
+
+Test 44: Shortest path where start is a nonexistent building
+Input: 
+Expected: 
+Actual: 
+Result: 
+
+Test 45: Shortest path where end is a nonexistent building
+Input: 
+Expected: 
+Actual: 
+Result: 
+
+Test 46: Shortest path where start and end don't have a connecting path
+Input: 
+Expected: 
+Actual: 
+Result: 
+
+Test 47: Shortest path with 2 equal length paths between the same start end, neighbor order, using sample data
+Input: 
+Expected: 
+Actual: 
+Result: 
+
+Test 48: Shortest path with 2 equal length paths between the same start end, neighbor order, using test file
+Input: 
+Expected: 
+Actual: 
+Result: 
