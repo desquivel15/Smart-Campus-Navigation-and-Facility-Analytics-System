@@ -205,12 +205,14 @@ void Graph::shortestPath(string start, string goal){
     }
 }
 
-void Graph::reachability(string start, bool option){ //prompt for start IN MAIN
+void Graph::reachability(string start, bool option, bool print){ //prompt for start IN MAIN
     //OKAY. so 1 part is the printing reachability part aka option 0
     //second part (option = 1) is figuring out amount of connnected parts.
     //second part doesnt actually need starting but is useful
     // so not excluding - this functoin wont be called in main
     // will be called in parts of display 
+
+    //print!! auto = 1, can b turned to 0 for final report.
     queue<pair<int,Node*>> q; //int is distance
     vector<Node*> visited;
     Node* first = NULL;
@@ -223,7 +225,7 @@ void Graph::reachability(string start, bool option){ //prompt for start IN MAIN
     if(first==NULL){
         cout<<"ERROR - invalid starting building"<<endl; return;
     }
-    if(!option){
+    if(!option && print){
         cout<<"From "<<start<<endl;
     }
     q.push(make_pair(0, first));
@@ -233,7 +235,7 @@ void Graph::reachability(string start, bool option){ //prompt for start IN MAIN
         Node* curr = q.front().second;
         dist = q.front().first;
         q.pop();
-        if(!option){
+        if(!option && print){
             cout<<"At "<<curr->getBuildingName()<<" (distance "<<dist<<")"<<endl;
         }
         for(int i = 0; i < curr->edges.size(); i++){
@@ -249,7 +251,7 @@ void Graph::reachability(string start, bool option){ //prompt for start IN MAIN
             }
         }
     }
-    if(!option){
+    if(!option && print){
         cout<<"Reachable: "<<visited.size()<<" out of "<<buildings.size()<<endl; return;
     }
     int connectedSum = 1;
@@ -290,8 +292,52 @@ void Graph::reachability(string start, bool option){ //prompt for start IN MAIN
         }
         connectedSum++;
         cout<<connectedSum;
-    }
-    else {
+    } else {
         cout << connectedSum; //whole graph is connected
     }
+}
+
+void Graph::connectivityReport(){
+    cout << "Total buildings: " << buildings.size() << endl;
+    cout << "Total connections: ";
+    int sum = 0;
+    int maxDegree = 0;
+    vector<Node*> maxDegreeNodes;
+    vector<Node*> isolatedBuildings;
+    for(int i = 0; i < buildings.size(); i++){
+        sum += buildings[i]->getNumConnections();
+        if(buildings[i]->getNumConnections() > maxDegree){
+            maxDegree = buildings[i]->getNumConnections();
+        }
+        if(buildings[i]->getNumConnections() == 0){
+            isolatedBuildings.push_back(buildings[i]);
+        }
+    }
+    for(int i = 0; i < buildings.size(); i++){
+        if(buildings[i]->getNumConnections() == maxDegree){
+            maxDegreeNodes.push_back(buildings[i]);
+        }
+    }
+    cout<< sum/2 << endl;
+    cout<<"Highest degree ("<<maxDegree<<"): ";
+    for(int i = 0; i < maxDegreeNodes.size(); i++){
+        cout<<maxDegreeNodes[i]->getBuildingName();
+        
+    }
+    cout<<endl;
+    cout << "Isolated buildings: ";
+    if(isolatedBuildings.size() == 0){
+        cout << "None" << endl;
+    } else {
+        for(int i = 0; i < isolatedBuildings.size(); i++){
+            cout<<isolatedBuildings[i]->getBuildingName();
+            if(i != isolatedBuildings.size()-1){
+                cout<<", ";
+            }
+        }
+        cout<<"\b\b"<<endl;
+    }
+    cout<<"Connected components: ";
+    reachability(buildings[0]->getBuildingName(), 1, 0);
+    cout<<endl;
 }

@@ -421,10 +421,10 @@ int main(int argc, char* argv[]){
             break;
           }
 
-          case 17: //graph connectivity report
-            
+          case 17: {//graph connectivity report 
+            theGraph.connectivityReport();
             break;
-
+          }
           case 0: //project requirement, option 0 exit cleanly
 
           case 18:

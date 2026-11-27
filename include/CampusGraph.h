@@ -19,7 +19,6 @@ class Node{
 };
 
 class Graph{
-  vector<Node*> buildings; //i think this counts as an adjacency list
   vector<Node*> buildings; //this counts as an adjacency list
   public:
     ~Graph();
@@ -30,7 +29,8 @@ class Graph{
     void addEdges(vector<string> uniqStrings);
     void display(bool option = 0);
     void shortestPath(string start, string goal);
-    void reachability(string start, bool option = 0);
+    void reachability(string start, bool option = 0, bool print = 1);
+    void connectivityReport();
 };
 
 #endif
