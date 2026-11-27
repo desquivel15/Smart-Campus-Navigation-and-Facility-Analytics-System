@@ -336,7 +336,7 @@ int main(int argc, char* argv[]){
             }
             theGraph.shortestPath(buildNameStart, buildNameEnd);
             break;
-
+        }
         case 9: {
             string name;
           
