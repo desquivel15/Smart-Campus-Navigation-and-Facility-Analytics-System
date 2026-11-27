@@ -20,6 +20,7 @@ class Node{
 
 class Graph{
   vector<Node*> buildings; //i think this counts as an adjacency list
+  vector<Node*> buildings; //this counts as an adjacency list
   public:
     ~Graph();
     Graph() = default;
