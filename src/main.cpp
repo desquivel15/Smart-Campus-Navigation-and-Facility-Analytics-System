@@ -320,7 +320,7 @@ int main(int argc, char* argv[]){
             break;
             }
 
-        case 8: //shortest path
+        case 8: {//shortest path 
             string buildNameStart, buildNameEnd;
             cout<<"Enter starting building name: ";
             getline(cin, buildNameStart);
