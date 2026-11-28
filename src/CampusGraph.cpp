@@ -108,7 +108,7 @@ void Graph::shortestPath(string start, string goal){
     //dijkstras shortest path algorithm
     //used zybooks as a reference for this
     if(start==goal){
-        cout<<start<<" to "<<goal<<" (0 connections)."<<endl; return;
+        cout<<start<<" to "<<goal<<" (origin same as destination, 0 connections)."<<endl; return;
     }
     queue<pair<shortestPathVertex, Node*>> unvisQ;//dist,prev,curr
     Node* startN = NULL;

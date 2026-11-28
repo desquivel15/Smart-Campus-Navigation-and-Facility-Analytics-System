@@ -409,34 +409,37 @@ Result: PASS
 
 FINAL TESTS - GRAPH AND BFS
 Test 43: Shortest path where start = end
-Input: 
-Expected: 
-Actual: 
-Result: 
+Input: .\campus, 8, Library, Library
+Expected: 0 connections
+Actual: Library to Library (origin same as destination, 0 connections).
+Result: PASS
 
 Test 44: Shortest path where start is a nonexistent building
-Input: 
-Expected: 
-Actual: 
-Result: 
+Input: .\campus, 8, nonsense, Gym
+Expected: an error message
+Actual: ERROR - invalid starting building
+Result: PASS
 
 Test 45: Shortest path where end is a nonexistent building
-Input: 
-Expected: 
-Actual: 
-Result: 
+Input: .\campus, 8, Gym, Nonsense
+Expected: error message
+Actual: ERROR - invalid destination building
+Result: PASS
 
 Test 46: Shortest path where start and end don't have a connecting path
-Input: 
-Expected: 
-Actual: 
-Result: 
+Input: .\campus, 8, Engineering Building, Observatory
+Expected: no path
+Actual: Engineering Building to Observatory: no path.
+Result: PASS
 
 Test 47: Shortest path with 2 equal length paths between the same start end, neighbor order, using sample data
-Input: 
-Expected: 
-Actual: 
-Result: 
+Input: .\campus, 8, Library, Gym
+Expected: Library -> Student Union -> Gym (the other equal length path replaces Student Union with Business Building)
+Actual: Library to Gym (2 connections).
+Library
+Student Union
+Gym
+Result: PASS
 
 Test 48: Shortest path with 2 equal length paths between the same start end, neighbor order, using test file
 Input: 
