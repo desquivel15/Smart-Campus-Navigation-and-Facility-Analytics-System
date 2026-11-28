@@ -298,13 +298,16 @@ void Graph::reachability(string start, bool option, bool print){ //prompt for st
 }
 
 void Graph::connectivityReport(){
-    cout << "Total buildings: " << buildings.size() << endl;
-    cout << "Total connections: ";
+    if(buildings.size()==0){
+        cout<<"No buildings, empty list."<<endl;
+    }
+    cout<<"Total buildings: "<<buildings.size()<<endl;
+    cout<<"Total connections: ";
     int sum = 0;
     int maxDegree = 0;
-    vector<Node*> maxDegreeNodes;
-    vector<Node*> isolatedBuildings;
-    for(int i = 0; i < buildings.size(); i++){
+    vector<Node*>maxDegreeNodes;
+    vector<Node*>isolatedBuildings;
+    for(int i=0; i < buildings.size(); i++){
         sum += buildings[i]->getNumConnections();
         if(buildings[i]->getNumConnections() > maxDegree){
             maxDegree = buildings[i]->getNumConnections();
@@ -313,23 +316,23 @@ void Graph::connectivityReport(){
             isolatedBuildings.push_back(buildings[i]);
         }
     }
-    for(int i = 0; i < buildings.size(); i++){
+    for(int i=0; i < buildings.size(); i++){
         if(buildings[i]->getNumConnections() == maxDegree){
             maxDegreeNodes.push_back(buildings[i]);
         }
     }
-    cout<< sum/2 << endl;
+    cout<<sum/2<<endl;
     cout<<"Highest degree ("<<maxDegree<<"): ";
-    for(int i = 0; i < maxDegreeNodes.size(); i++){
+    for(int i=0; i < maxDegreeNodes.size(); i++){
         cout<<maxDegreeNodes[i]->getBuildingName();
         
     }
     cout<<endl;
-    cout << "Isolated buildings: ";
+    cout<<"Isolated buildings: ";
     if(isolatedBuildings.size() == 0){
         cout << "None" << endl;
     } else {
-        for(int i = 0; i < isolatedBuildings.size(); i++){
+        for(int i=0; i < isolatedBuildings.size(); i++){
             cout<<isolatedBuildings[i]->getBuildingName();
             if(i != isolatedBuildings.size()-1){
                 cout<<", ";
