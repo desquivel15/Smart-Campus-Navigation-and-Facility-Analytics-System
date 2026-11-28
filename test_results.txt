@@ -442,7 +442,10 @@ Gym
 Result: PASS
 
 Test 48: Shortest path with 2 equal length paths between the same start end, neighbor order, using test file
-Input: 
-Expected: 
-Actual: 
-Result: 
+Input: ./campus testdata/same_path_length, 8, Library, Gym
+Expected: Library -> Business Building -> Gym (only change to this from sample is order - Business Building is before Student Union)
+Actual: Library to Gym (2 connections).
+Library
+Business Building
+Gym
+Result: PASS
